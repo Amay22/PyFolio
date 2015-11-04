@@ -1,0 +1,6 @@
+
+[FORMAT]
+
+# String used as indentation unit. This is usually 2 spaces.
+# Changed it from 4 spaces (1 tab) to 2 space (1 soft tab)
+indent-string='  '
