@@ -1,0 +1,3 @@
+[submodule "lib/StockScraper"]
+	path = lib/StockScraper
+	url = https://github.com/gurch101/StockScraper
