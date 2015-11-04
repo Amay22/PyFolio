@@ -1,0 +1,16 @@
+{% extends 'default.html' %}
+
+{% block main %}
+<form method="post" action="/login">
+    {% csrf_token %}
+    {% for error in errors %}
+      {{ error }}<br>
+    {% endfor %}
+    <input autofocus="true" name="username" placeholder="Username" type="text"/><br>
+    <input name="password" placeholder="Password" type="password"/><br>
+    <button type="submit">Login</button>
+</form>
+<div>
+    Don't Have an Account ? No Worries <a href="/register">Register</a> now
+</div>
+{% endblock %}
