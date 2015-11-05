@@ -1,0 +1,12 @@
+{% extends 'default.html' %}
+
+{% block main %}
+<form method="post" action="/register">
+    {% csrf_token %}
+    {% for error in errors %}
+      {{ error }}<br>
+    {% endfor %}
+    <input autofocus="true" name="stock" placeholder="Stock" type="text"/>
+    <button type="submit">Find Stock</button>
+</form>
+{% endblock %}

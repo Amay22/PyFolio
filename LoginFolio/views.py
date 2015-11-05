@@ -25,7 +25,7 @@ def login_user(request):
     if password is None or not password:
       errors.append('Invalid Password')
     if len(errors) > 0:
-      return render(request, 'login/login.html', {'errors' : errors})
+      return render(request, 'LoginFolio/login.html', {'errors' : errors})
 
     authenticated = authenticate(username=username, password=password)
 
@@ -35,11 +35,11 @@ def login_user(request):
       return redirect('portfolio')
     # Incorrect username or password
     else:
-      return render(request, 'login/login.html', {'errors': ['Invalid Username and/or Password']})
+      return render(request, 'LoginFolio/login.html', {'errors': ['Invalid Username and/or Password']})
 
   else:
     # Displacy Login Form
-    return render(request, 'login/login.html')
+    return render(request, 'LoginFolio/login.html')
 
 def register_user(request):
   """Form support for User Registration Process"""
@@ -47,7 +47,7 @@ def register_user(request):
     # Get POST params from request
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
-    confirm_password = request.POST.get('confirm-pass', '')
+    confirm_password = request.POST.get('confirm-password', '')
 
     errors = []
     # Check if the user already exists
@@ -64,14 +64,14 @@ def register_user(request):
     if password != confirm_password:
       errors.append('Password and Confirm Password don\'t match')
     if len(errors) > 0:
-      return render(request, 'login/register.html', {'errors' : errors})
+      return render(request, 'LoginFolio/register.html', {'errors' : errors})
 
-    return render(request, 'login/login.html')
+    return render(request, 'LoginFolio/login.html')
   else:
     # Display registration form
-    return render(request, 'login/register.html')
+    return render(request, 'LoginFolio/register.html')
 
 def logout_user(request):
   """Logouts the currently signed in user and redirects to login"""
   logout(request)
-  return redirect('login')
+  return redirect('LoginFolio/login.html')
