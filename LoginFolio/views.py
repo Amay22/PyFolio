@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 # The in-built django user module will take care of all the user related database functionality
 from django.contrib.auth.models import User
+# User of this App
+from StockFolio.models import StockFolioUser
 
 @login_required
 def index():
@@ -66,6 +68,9 @@ def register_user(request):
     if len(errors) > 0:
       return render(request, 'LoginFolio/register.html', {'errors' : errors})
 
+    # Create a User and redirect to login
+    user = User.objects.create_user(username, password=password)
+    StockFolioUser.objects.create(user=user, cash=10000)
     return render(request, 'LoginFolio/login.html')
   else:
     # Display registration form
