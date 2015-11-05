@@ -1,7 +1,7 @@
 {% extends 'default.html' %}
 
 {% block main %}
-<form method="post" action="/register">
+<form method="post" action="/portfolio">
     {% csrf_token %}
     {% for error in errors %}
       {{ error }}<br>
