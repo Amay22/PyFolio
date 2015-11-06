@@ -1,3 +1,4 @@
+'''Urls for the StockFolio app'''
 from django.conf.urls import url
 from . import views as StockFolio_views
 

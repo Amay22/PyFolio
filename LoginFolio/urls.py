@@ -1,3 +1,4 @@
+'''Urls for the LoginFolio app'''
 from django.conf.urls import url
 from . import views as LoginFolio_views
 

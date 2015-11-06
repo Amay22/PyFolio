@@ -1,12 +1,66 @@
 {% extends 'default.html' %}
 
 {% block main %}
-<form method="post" action="portfolio">
+  <form method="post" action="portfolio">
     {% csrf_token %}
     {% for error in errors %}
       {{ error }}<br>
     {% endfor %}
     <input autofocus="true" name="stock" placeholder="Stock" type="text"/>
+    <input type="hidden" name="which-form" value="find-stock"/>
     <button type="submit">Find Stock</button>
-</form>
+  </form>
+
+  {% if stock %}
+    <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Last price</th>
+        <th>Change</th>
+        <th>Volume</th>
+        <th>Avg. Vol</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Previous Close</th>
+        <th>52w Range</th>
+        <th>Div & Yield</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ stock.Name }}</td>
+        <td>{{ stock.Symbol }}</td>
+        <td>{{ stock.LastTradePriceOnly }}</td>
+        <td style="color: {% if stock.Change|first == '+' %}green{% else %}red{% endif %};">{{ stock.Change }} ({{ stock.PercentChange}})</td>
+        <td>{{ stock.Volume }}</td>
+        <td>{{ stock.AverageDailyVolume }}</td>
+        <td>{{ stock.Open }} </td>
+        <td>{{ stock.DaysHigh }}</td>
+        <td>{{ stock.DaysLow }}</td>
+        <td>{{ stock.PreviousClose }}</td>
+        <td>{{ stock.YearRange }}</td>
+        <td>{{ stock.DividendShare }} ( {{ stock.DividendYield }} )</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <form method="post" action="portfolio">
+      {% csrf_token %}
+      <input type="hidden" name="which-form" value="download-historical"/>
+      <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+      <button type="submit">Download Historical data of {{ stock.Symbol }} </button>
+    </form>
+
+    <form method="post" action="portfolio">
+      {% csrf_token %}
+      <input autofocus="true" name="shares" placeholder="No. of Shares" type="text"/>
+      <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+      <input type="hidden" name="which-form" value="add-stock"/>
+      <button type="submit">Add {{ stock.Symbol }} </button>
+    </form>
+  {% endif %}
+
 {% endblock %}

@@ -1,4 +1,4 @@
-"""Login.views Supports all the user authentication and login and registering process"""
+'''Login.views Supports all the user authentication and login and registering process'''
 from django.shortcuts import render, redirect
 # Takes care of checking if the user is logged in or not
 from django.contrib.auth.decorators import login_required
@@ -11,11 +11,11 @@ from StockFolio.models import StockFolioUser
 
 @login_required
 def index():
-  """Redirects right to the portfolio page that that serves as a user dashboard"""
+  '''Redirects right to the portfolio page that that serves as a user dashboard'''
   return redirect('portfolio')
 
 def login_user(request):
-  """Form support for Login"""
+  '''Form support for Login'''
   if request.method == "POST":
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -44,7 +44,7 @@ def login_user(request):
     return render(request, 'LoginFolio/login.html')
 
 def register_user(request):
-  """Form support for User Registration Process"""
+  '''Form support for User Registration Process'''
   if request.method == "POST":
     # Get POST params from request
     username = request.POST.get('username', '')
@@ -77,6 +77,6 @@ def register_user(request):
     return render(request, 'LoginFolio/register.html')
 
 def logout_user(request):
-  """Logouts the currently signed in user and redirects to login"""
+  '''Logouts the currently signed in user and redirects to login'''
   logout(request)
   return redirect('LoginFolio/login.html')
