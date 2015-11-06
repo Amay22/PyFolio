@@ -70,7 +70,7 @@ def register_user(request):
 
     # Create a User and redirect to login
     user = User.objects.create_user(username, password=password)
-    StockFolioUser.objects.create(user=user, cash=10000)
+    StockFolioUser.objects.create(user=user)
     return render(request, 'LoginFolio/login.html')
   else:
     # Display registration form

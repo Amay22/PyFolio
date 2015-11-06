@@ -8,21 +8,25 @@ from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_histori
 import xlwt
 # Http clients to send the attachment file for historical data
 from django.http import HttpResponse
+# models i.e. database
+from .models import StockPortfolio
 
 @login_required
 def portfolio(request):
   '''The main method for all the user functionality'''
   if request.method == 'POST':
+    user_id = request.user.id
     which_form = request.POST.get('which-form', '').strip()
-    print(which_form)
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip()
       if symbol != '':
         return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol])})
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
-    elif which_form == 'add-stock':
-      pass
+    elif which_form == 'buy-stock':
+      StockPortfolio.buy(user_id, request.POST.get('stock-symbol', '').strip(), request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
+    elif which_form == 'sell-stock':
+      StockPortfolio.sell(user_id, request.POST.get('stock-symbol', '').strip(), request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
   return render(request, 'StockFolio/portfolio.html')
 
 def download_historical(symbol):
@@ -40,6 +44,3 @@ def download_historical(symbol):
   response['Content-disposition'] = 'attachment; filename=' + symbol + '-history.xls'
   book.save(response)
   return response
-
-# def buy(user, symbol, shares):
-

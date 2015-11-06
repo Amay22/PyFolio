@@ -49,8 +49,9 @@
 
     <form method="post" action="portfolio">
       {% csrf_token %}
-      <input type="hidden" name="which-form" value="download-historical"/>
       <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+      <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
+      <input type="hidden" name="which-form" value="download-historical"/>
       <button type="submit">Download Historical data of {{ stock.Symbol }} </button>
     </form>
 
@@ -58,9 +59,11 @@
       {% csrf_token %}
       <input autofocus="true" name="shares" placeholder="No. of Shares" type="text"/>
       <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
-      <input type="hidden" name="which-form" value="add-stock"/>
+      <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
+      <input type="hidden" name="which-form" value="buy-stock"/>
       <button type="submit">Add {{ stock.Symbol }} </button>
     </form>
+
   {% endif %}
 
 {% endblock %}
