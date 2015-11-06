@@ -57,7 +57,7 @@
 
     <form method="post" action="portfolio">
       {% csrf_token %}
-      <input autofocus="true" name="shares" placeholder="No. of Shares" type="text"/>
+      <input name="shares" placeholder="No. of Shares" type="text"/>
       <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
       <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
       <input type="hidden" name="which-form" value="buy-stock"/>
@@ -72,6 +72,7 @@
       <tr>
         <th>Name</th>
         <th>Symbol</th>
+        <th>Shares</th>
         <th>Last price</th>
         <th>Change</th>
         <th>Volume</th>
@@ -90,6 +91,7 @@
         <tr>
           <td>{{ stocks.Name }}</td>
           <td>{{ stocks.Symbol }}</td>
+          <td>{{ stocks.shares }}</td>
           <td>{{ stocks.LastTradePriceOnly }}</td>
           <td style="color: {% if stocks.Change|first == '+' %}green{% else %}red{% endif %};">{{ stocks.Change }} ({{ stocks.PercentChange}})</td>
           <td>{{ stocks.Volume }}</td>
@@ -101,12 +103,22 @@
           <td>{{ stocks.YearRange }}</td>
           <td>{{ stocks.DividendShare }} ( {{ stocks.DividendYield }} )</td>
           <td>
+           <form method="post" action="portfolio">
+            {% csrf_token %}
+            <input name="shares" placeholder="No. of Shares" type="text"/>
+            <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+            <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
+            <input type="hidden" name="which-form" value="buy-stock"/>
+            <button type="submit">Buy More {{ stock.Symbol }} </button>
+          </form>
+         </td>
+          <td>
             <form method="post" action="portfolio">
               {% csrf_token %}
-              <input autofocus="true" name="shares" placeholder="No. of Shares" type="text"/>
+              <input name="shares" placeholder="No. of Shares" type="text"/>
               <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
               <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
-              <input type="hidden" name="which-form" value="buy-stock"/>
+              <input type="hidden" name="which-form" value="sell-stock"/>
               <button type="submit">Sell {{ stocks.Symbol }} </button>
             </form>
           </td>

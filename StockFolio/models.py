@@ -31,7 +31,7 @@ class StockPortfolio(models.Model):
         stock_user.profit -= stock_user.expenditure
         stock_user.expenditure = 0
     stock_user.save()
-    result = StockPortfolio.objects.get_or_createt(stock=stock_symbol, user=stock_user)
+    result = StockPortfolio.objects.get_or_create(stock=stock_symbol, user=stock_user)[0]
     result.shares += int(num_shares)
     result.save()
 
@@ -39,14 +39,13 @@ class StockPortfolio(models.Model):
   def sell(user_id, stock_symbol, num_shares, cost_per_share):
     '''Create stock row or negate num of shares'''
     stock_user = StockFolioUser.objects.get(user=user_id)
-    if float(cost_per_share) * int(num_shares) > expenditure:
+    if float(cost_per_share) * int(num_shares) > stock_user.expenditure:
       stock_user.profit += (float(cost_per_share) * int(num_shares)) - stock_user.expenditure
     else:
       stock_user.expenditure -= float(cost_per_share) * int(num_shares)
     stock_user.save()
-    result = StockPortfolio.objects.get(stock=stock_symbol, user=stock_user)
+    result = StockPortfolio.objects.filter(stock=stock_symbol, user=stock_user)[0]
+    result.shares -= int(num_shares)
     if result.shares == 0:
       result.delete()
-    else:
-      result.shares -= num_shares
-      result.save()
+    result.save()
