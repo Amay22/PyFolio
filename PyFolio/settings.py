@@ -27,6 +27,25 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Static Files i.e. scripts and stylesheets
+
+STATIC_ROOT = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other compress finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio',),
+)
+
 # Application definition
 
 PREREQ_INSTALLED_APPS = [
@@ -40,7 +59,8 @@ PREREQ_INSTALLED_APPS = [
 
 PROJECT_APPS = [
     'LoginFolio',
-    'StockFolio'
+    'StockFolio',
+    'compressor'
 ]
 
 INSTALLED_APPS = PREREQ_INSTALLED_APPS + PROJECT_APPS
