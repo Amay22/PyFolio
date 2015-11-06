@@ -21,5 +21,5 @@ from StockFolio import urls as StockFolio_urls
 urlpatterns = [
     url(r'^(?i)admin/', include(admin.site.urls)),
     url(r'', include(LoginFolio_urls)),
-    url(r'^(?i)StockFolio/', include(StockFolio_urls))
+    url(r'^(?i)', include(StockFolio_urls))
 ]

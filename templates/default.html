@@ -3,15 +3,15 @@
 <head lang="en">
   <meta charset="UTF-8" />
   <title>PyFolio</title>
-  <link rel="stylesheet" href="{{ STATIC_ROOT }}stylesheets/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/bootstrap/bootstrap.min.css">
   {% block scripts %}
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/jquery/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/highstock/highstock.js"></script>
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/highstock/modules/exporting.js"></script>
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/bootstrap/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/d3/d3.v3.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_ROOT }}scripts/techanjs/techan.min.js"></script>
-  {% endblock %}
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/highstock/highstock.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/highstock/modules/exporting.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/d3/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/techanjs/techan.min.js"></script>
+  {% endblock scripts %}
 </head>
 <body>
   {% block main %}

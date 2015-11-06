@@ -67,7 +67,7 @@
   {% endif %}
 
   {% if portfolio %}
-    <table>
+    <table name="portfolio-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -109,7 +109,7 @@
             <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
             <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
             <input type="hidden" name="which-form" value="buy-stock"/>
-            <button type="submit">Buy More {{ stock.Symbol }} </button>
+            <button type="submit">Buy More {{ stocks.Symbol }} </button>
           </form>
          </td>
           <td>
@@ -126,6 +126,15 @@
       {% endfor %}
     </tbody>
     </table>
+
+
+
+    <h2>Portfolio Time vs. Value Graph<h2>
+    {% load compress %}
+    {% compress js %}
+      <script src="{{ STATIC_URL }}scripts/coffee/plotPortfolio.coffee" type="text/coffeescript"></script>
+    {% endcompress %}
+    <div id="portfolio-time-val-graph" style="height:400px;min-width:310px"></div>
   {% endif %}
 
 {% endblock %}

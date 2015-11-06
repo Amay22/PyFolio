@@ -29,7 +29,9 @@ ALLOWED_HOSTS = []
 
 # Static Files i.e. scripts and stylesheets
 
-STATIC_ROOT = '/static/'
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -89,6 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.static',
             ],
         },
     },
