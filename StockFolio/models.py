@@ -6,6 +6,7 @@ class StockFolioUser(models.Model):
   '''Add StockFolio data to User'''
   user = models.OneToOneField(User)
   expenditure = models.FloatField(default=0)
+  profit = models.FloatField(default=0)
 
 class StockPortfolio(models.Model):
   '''Stock Table to maintain the stock bought'''
@@ -22,6 +23,13 @@ class StockPortfolio(models.Model):
     '''Create stock row or add num of shares'''
     stock_user = StockFolioUser.objects.get(user=user_id)
     stock_user.expenditure += float(cost_per_share) * int(num_shares)
+    if stock_user.profit > 0:
+      if stock_user.expenditure > stock_user.profit:
+        stock_user.expenditure -= stock_user.profit
+        stock_user.profit = 0
+      else:
+        stock_user.profit -= stock_user.expenditure
+        stock_user.expenditure = 0
     stock_user.save()
     result = StockPortfolio.objects.get_or_createt(stock=stock_symbol, user=stock_user)
     result.shares += int(num_shares)
@@ -31,7 +39,10 @@ class StockPortfolio(models.Model):
   def sell(user_id, stock_symbol, num_shares, cost_per_share):
     '''Create stock row or negate num of shares'''
     stock_user = StockFolioUser.objects.get(user=user_id)
-    stock_user.expenditure -= float(cost_per_share) * int(num_shares)
+    if float(cost_per_share) * int(num_shares) > expenditure:
+      stock_user.profit += (float(cost_per_share) * int(num_shares)) - stock_user.expenditure
+    else:
+      stock_user.expenditure -= float(cost_per_share) * int(num_shares)
     stock_user.save()
     result = StockPortfolio.objects.get(stock=stock_symbol, user=stock_user)
     if result.shares == 0:
