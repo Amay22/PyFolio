@@ -9,13 +9,12 @@ import xlwt
 # Http clients to send the attachment file for historical data
 from django.http import HttpResponse
 # models i.e. database
-from .models import StockPortfolio
+from .models import StockPortfolio, StockFolioUser
 
 @login_required
 def portfolio(request):
   '''The main method for all the user functionality'''
   user_id = request.user.id
-  portfolio_rows =
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
@@ -57,7 +56,7 @@ def portfolio_stocks(user_id):
   if stock_list:
     symbols = [stock.stock for stock in stock_list]
     stock_data = get_current_info(symbols)
-    for stock in [stock_data]:
+    for stock in stock_data:
       for stock_from_list in stock_list:
         if stock_from_list.stock == stock['Symbol']:
           stock['shares'] = stock_from_list.shares
@@ -67,8 +66,9 @@ def portfolio_stocks(user_id):
 def plot(user_id):
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
+  value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
   if stocks:
-    data, closes, values = [], [], [1000] * len(stocks)
+    data, closes = [], []
     data = [list(reversed(get_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
     keys = ['High', 'Low', 'AdjClose']
@@ -81,8 +81,8 @@ def plot(user_id):
           ratio = closes[j] / 100
           percent = (float(history[idx]['AdjClose']) - closes[j]) / ratio
           closes[j] = float(history[idx]['AdjClose'])
-          if idx > 1: values[j] += values[j] * (percent / 100)
-          row['Value'] += values[j]
+          if idx > 1: value += value * (percent / 100)
+          row['Value'] = value
           row['Percent'] += percent
           row['Volume'] += float(history[idx]['Volume'])
           for key in keys: row[key] += float(history[idx][key])
