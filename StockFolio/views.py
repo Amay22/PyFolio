@@ -15,24 +15,24 @@ from .models import StockPortfolio
 def portfolio(request):
   '''The main method for all the user functionality'''
   user_id = request.user.id
-  plot(user_id)
+  portfolio_rows =
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip()
       if symbol != '':
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id)})
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
     elif which_form == 'sell-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id)})
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -90,5 +90,4 @@ def plot(user_id):
         for key in keys: row[key] /= len(data)
         rows.append(row)
     rows.reverse()
-  print(rows)
-  # return render(request, 'stocks/plot.html', {'rows': rows})
+  return rows

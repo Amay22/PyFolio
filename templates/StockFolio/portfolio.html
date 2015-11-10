@@ -135,7 +135,7 @@
 
   {% endif %}
 
-  {% if rows %}
+  {% if portfolio_rows %}
 
     <h2>Portfolio Time vs. Value Graph</h2>
 
@@ -155,7 +155,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for ror in rows %}
+        {% for row in portfolio_rows %}
         <tr>
           <td>${{ row.Value | floatformat:2 }}</td>
           <td >{{ row.Date }}</td>
