@@ -1,2 +1,2 @@
-$ ->
-  alert 'in coffee'
+# $ ->
+  # alert 'in coffee'

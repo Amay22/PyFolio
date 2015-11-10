@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Takes care of checking if the user is logged in or not
 from django.contrib.auth.decorators import login_required
 # Yahoo YQL stockretiever to get the stock infos
-from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info
+from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_month_info
 # For workbook to create the historical data of a stock
 import xlwt
 # Http clients to send the attachment file for historical data
@@ -15,6 +15,7 @@ from .models import StockPortfolio
 def portfolio(request):
   '''The main method for all the user functionality'''
   user_id = request.user.id
+  plot(user_id)
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
@@ -44,7 +45,7 @@ def download_historical(symbol):
     for col, val in enumerate(row.values()):
       sheet.write(idx, col, val)
   response = HttpResponse(content_type='application/x-msexcel')
-  response['Pragma'] = 'no-cache'
+  response['Percentagma'] = 'no-cache'
   response['Content-disposition'] = 'attachment; filename=' + symbol + '-history.xls'
   book.save(response)
   return response
@@ -63,3 +64,31 @@ def portfolio_stocks(user_id):
     portfolio_info = [stock_data] if stock_data.__class__ == dict else stock_data
   return portfolio_info
 
+def plot(user_id):
+  rows = []
+  stocks = StockPortfolio.objects.filter(user=user_id)
+  if stocks:
+    data, closes, values = [], [], [1000] * len(stocks)
+    data = [list(reversed(get_month_info(stock.stock))) for stock in stocks]
+    days = [day['Date'] for day in data[0]]
+    keys = ['High', 'Low', 'AdjClose']
+    for idx, day in enumerate(days):
+      row = {'Value': 0, 'Date': day, 'Percent': 0, 'Volume': 0, 'High': 0, 'Low': 0, 'AdjClose': 0}
+      if idx == 0:
+        closes = [float(history[idx]['AdjClose']) for history in data]
+      else:
+        for j, history in enumerate(data):
+          ratio = closes[j] / 100
+          percent = (float(history[idx]['AdjClose']) - closes[j]) / ratio
+          closes[j] = float(history[idx]['AdjClose'])
+          if idx > 1: values[j] += values[j] * (percent / 100)
+          row['Value'] += values[j]
+          row['Percent'] += percent
+          row['Volume'] += float(history[idx]['Volume'])
+          for key in keys: row[key] += float(history[idx][key])
+        row['Percent'] /= len(data)
+        for key in keys: row[key] /= len(data)
+        rows.append(row)
+    rows.reverse()
+  print(rows)
+  # return render(request, 'stocks/plot.html', {'rows': rows})
