@@ -131,8 +131,9 @@
 
   {% if portfolio_rows %}
 
+    <h2>Portfolio OHLC and Volume</h2>
+    <div id="portfolio-ohlc"></div>
     <h2>Portfolio Time vs. Value Graph</h2>
-
     <div id="portfolio-time-val-graph" style="height:400px;min-width:310px"></div>
 
     <h2>Portfolio</h2>
@@ -157,10 +158,10 @@
           <td style="color: {% if row.Percent > 0 %}green{% else %}red{% endif %};">
               {% if row.Percent > 0 %}+{% endif %}{{ row.Percent | floatformat:2 }}
           </td>
-          <td>{{ row.Volume }}</td>
-          <td>{{ row.High | floatformat:2 }}</td>
-          <td>{{ row.Low | floatformat:2 }}</td>
-          <td>{{ row.AdjClose | floatformat:2 }}</td>
+          <td class="portfolio-table-vol">{{ row.Volume | floatformat }}</td>
+          <td class="portfolio-table-high">{{ row.High | floatformat:2 }}</td>
+          <td class="portfolio-table-low">{{ row.Low | floatformat:2 }}</td>
+          <td class="portfolio-table-close">{{ row.AdjClose | floatformat:2 }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -170,10 +171,10 @@
     {% load staticfiles %}
     {% compress js %}
       <script src="{{ STATIC_URL }}scripts/coffee/plot-val-time.coffee" type="text/coffeescript"></script>
+      <script src="{{ STATIC_URL }}scripts/coffee/plot-ohlc.coffee" type="text/coffeescript"></script>
     {% endcompress %}
     {% compress css %}
       <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/techan-plot.css" />
     {% endcompress %}
   {% endif %}
-
 {% endblock %}

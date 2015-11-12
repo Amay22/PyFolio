@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Takes care of checking if the user is logged in or not
 from django.contrib.auth.decorators import login_required
 # Yahoo YQL stockretiever to get the stock infos
-from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_month_info
+from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_month_info, get_3_month_info
 # For workbook to create the historical data of a stock
 import xlwt
 # Http clients to send the attachment file for historical data
@@ -69,7 +69,7 @@ def plot(user_id):
   value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
   if stocks:
     data, closes = [], []
-    data = [list(reversed(get_month_info(stock.stock))) for stock in stocks]
+    data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
     keys = ['High', 'Low', 'AdjClose']
     for idx, day in enumerate(days):
