@@ -33,6 +33,10 @@ $ ->
           count: 1
           text: '1m'
         }
+        {
+          type: 'all'
+          text: '3m'
+        }
       ]
     title: text: 'Portfolio Value vs Time'
     series: [ {
