@@ -167,10 +167,13 @@
     </table>
 
     {% load compress %}
+    {% load staticfiles %}
     {% compress js %}
       <script src="{{ STATIC_URL }}scripts/coffee/plot-val-time.coffee" type="text/coffeescript"></script>
     {% endcompress %}
-
+    {% compress css %}
+      <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/techan-plot.css" />
+    {% endcompress %}
   {% endif %}
 
 {% endblock %}
