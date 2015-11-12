@@ -94,6 +94,22 @@ def get_month_info(symbol):
   del results['query']['results']['row'][0]
   return results['query']['results']['row']
 
+def get_3_month_info(symbol):
+  """Retrieves historical stock data for last month for the provided symbol.
+  Historical data includes date, open, close, high, low, volume,
+  and adjusted close."""
+  delta = datetime.timedelta(days=-100)
+  today = datetime.date.today()
+  three_month_ago = today + delta
+  yql = 'select * from csv where url=\'%s\'' \
+    ' and columns=\"Date,Open,High,Low,Close,Volume,AdjClose\"' \
+    ' and Date >= \'%s-%s-%s\'' \
+      % (HISTORICAL_URL + symbol, three_month_ago.year, str(three_month_ago.month).zfill(2), str(three_month_ago.day).zfill(2),)
+  results = executeYQLQuery(yql)
+  # delete first row which contains column names
+  del results['query']['results']['row'][0]
+  return results['query']['results']['row']
+
 def get_news_feed(symbol):
   """Retrieves the rss feed for the provided symbol."""
   feedUrl = RSS_URL + symbol
