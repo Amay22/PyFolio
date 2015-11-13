@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Takes care of checking if the user is logged in or not
 from django.contrib.auth.decorators import login_required
 # Yahoo YQL stockretiever to get the stock infos
-from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_month_info, get_3_month_info
+from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_3_month_info
 # For workbook to create the historical data of a stock
 import xlwt
 # Http clients to send the attachment file for historical data
@@ -64,6 +64,7 @@ def portfolio_stocks(user_id):
   return portfolio_info
 
 def plot(user_id):
+  '''Gets Months of historical info on stock and for the graph plots of portfolio'''
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
   value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
@@ -81,13 +82,16 @@ def plot(user_id):
           ratio = closes[j] / 100
           percent = (float(history[idx]['AdjClose']) - closes[j]) / ratio
           closes[j] = float(history[idx]['AdjClose'])
-          if idx > 1: value += value * (percent / 100)
+          if idx > 1:
+            value += value * (percent / 100)
           row['Value'] = value
           row['Percent'] += percent
           row['Volume'] += float(history[idx]['Volume'])
-          for key in keys: row[key] += float(history[idx][key])
+          for key in keys:
+            row[key] += float(history[idx][key])
         row['Percent'] /= len(data)
-        for key in keys: row[key] /= len(data)
+        for key in keys:
+          row[key] /= len(data)
         rows.append(row)
     rows.reverse()
   return rows
