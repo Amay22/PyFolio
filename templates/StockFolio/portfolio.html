@@ -1,6 +1,10 @@
 {% extends 'default.html' %}
 
 {% block main %}
+  <script>
+    var stock_symbols = {{symbols | safe }}
+  </script>
+
   <form method="post" action="portfolio">
     {% csrf_token %}
     {% for error in errors %}
@@ -65,7 +69,8 @@
     </form>
 
   {% endif %}
-
+  Money Spent:
+  Money Earned:
   {% if portfolio %}
     <table name="portfolio-table">
     <thead>
