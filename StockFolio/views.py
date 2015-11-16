@@ -20,18 +20,18 @@ def portfolio(request):
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip()
       if symbol != '':
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : STOCK_SYMBOLS})
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : STOCK_SYMBOLS})
     elif which_form == 'sell-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : STOCK_SYMBOLS})
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : STOCK_SYMBOLS})
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -72,7 +72,6 @@ def plot(user_id):
     data, closes = [], []
     data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
-    keys = ['High', 'Low', 'AdjClose']
     for idx, day in enumerate(days):
       row = {'Value': 0, 'Date': day, 'Percent': 0, 'Volume': 0, 'High': 0, 'Low': 0, 'AdjClose': 0}
       if idx == 0:
@@ -87,10 +86,10 @@ def plot(user_id):
           row['Value'] = value
           row['Percent'] += percent
           row['Volume'] += float(history[idx]['Volume'])
-          for key in keys:
+          for key in ['High', 'Low', 'AdjClose']:
             row[key] += float(history[idx][key])
         row['Percent'] /= len(data)
-        for key in keys:
+        for key in ['High', 'Low', 'AdjClose']:
           row[key] /= len(data)
         rows.append(row)
     rows.reverse()
