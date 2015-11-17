@@ -10,7 +10,12 @@
     {% for error in errors %}
       {{ error }}<br>
     {% endfor %}
-    <input autofocus="true" name="stock" placeholder="Stock" type="text"/>
+    {% load compress %}
+    {% load staticfiles %}
+    {% compress js %}
+      <script src="{{ STATIC_URL }}scripts/coffee/autocomplete_symbols.coffee" type="text/coffeescript"></script>
+    {% endcompress %}
+    <input autofocus="true"  style="z-index:999;" name="stock" id="input-find-stock" placeholder="Stock" type="text"/>
     <input type="hidden" name="which-form" value="find-stock"/>
     <button type="submit">Find Stock</button>
   </form>

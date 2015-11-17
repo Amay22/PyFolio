@@ -18,7 +18,6 @@ import json
 @login_required
 def portfolio(request):
   '''The main method for all the user functionality'''
-  print(STOCK_SYMBOLS)
   user_id = request.user.id
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
