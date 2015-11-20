@@ -5,17 +5,25 @@
     var stock_symbols = {{symbols | safe }}
   </script>
 
-  <form method="post" action="portfolio">
+  {% load compress %}
+  {% load staticfiles %}
+  {% compress js %}
+    <script src="{{ STATIC_URL }}scripts/coffee/input_validation.coffee" type="text/coffeescript"></script>
+  {% endcompress %}
+
+  <form method="post" id="find-stock" action="portfolio">
     {% csrf_token %}
     {% for error in errors %}
       {{ error }}<br>
     {% endfor %}
+
     {% load compress %}
     {% load staticfiles %}
     {% compress js %}
       <script src="{{ STATIC_URL }}scripts/coffee/autocomplete_symbols.coffee" type="text/coffeescript"></script>
     {% endcompress %}
-    <input autofocus="true"  style="z-index:999;" name="stock" id="input-find-stock" placeholder="Stock" type="text"/>
+
+    <input autofocus="true" name="stock" id="input-find-stock" placeholder="Stock" type="text"/>
     <input type="hidden" name="which-form" value="find-stock"/>
     <button type="submit">Find Stock</button>
   </form>
@@ -66,7 +74,7 @@
 
     <form method="post" action="portfolio">
       {% csrf_token %}
-      <input name="shares" placeholder="No. of Shares" type="text"/>
+      <input name="shares" class="number" placeholder="No. of Shares" type="text"/>
       <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
       <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
       <input type="hidden" name="which-form" value="buy-stock"/>
@@ -115,7 +123,7 @@
           <td>
            <form method="post" action="portfolio">
             {% csrf_token %}
-            <input name="shares" placeholder="No. of Shares" type="text"/>
+            <input name="shares" class="number" placeholder="No. of Shares" type="text"/>
             <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
             <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
             <input type="hidden" name="which-form" value="buy-stock"/>
@@ -125,7 +133,7 @@
           <td>
             <form method="post" action="portfolio">
               {% csrf_token %}
-              <input name="shares" placeholder="No. of Shares" type="text"/>
+              <input name="shares" class="number sell" placeholder="No. of Shares" type="text"/>
               <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
               <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
               <input type="hidden" name="which-form" value="sell-stock"/>

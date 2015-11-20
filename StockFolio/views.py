@@ -22,7 +22,7 @@ def portfolio(request):
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
-      symbol = request.POST.get('stock', '').strip()
+      symbol = request.POST.get('stock', '').strip().split(' ')[0].strip().upper()
       if symbol != '':
         return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
     elif which_form == 'download-historical':
