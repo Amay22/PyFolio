@@ -149,10 +149,18 @@
 
   {% if portfolio_rows %}
 
-    <h2>Portfolio OHLC and Volume</h2>
-    <div id="portfolio-ohlc"></div>
-    <h2>Portfolio Time vs. Value Graph</h2>
-    <div id="portfolio-time-val-graph" style="height:400px;min-width:310px"></div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#1" data-toggle="tab"><h2>Portfolio OHLC and Volume</h2></a></li>
+      <li><a href="#2" data-toggle="tab"><h2>PortFolio Value vs. Time</h2></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="1">
+        <div id="portfolio-ohlc"></div>
+      </div>
+      <div class="tab-pane active" id="2">
+        <div id="portfolio-time-val-graph" style="height:400px;min-width:310px"></div>
+      </div>
+    </div>
 
     <h2>Portfolio</h2>
 
