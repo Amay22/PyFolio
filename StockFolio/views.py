@@ -59,7 +59,10 @@ def portfolio_stocks(user_id):
   stock_list = StockPortfolio.objects.filter(user=user_id)
   if stock_list:
     symbols = [stock.stock for stock in stock_list]
-    stock_data = get_current_info(symbols)
+    if len(symbols) == 1 :
+      stock_data = [get_current_info(symbols)]
+    else:
+      stock_data = get_current_info(symbols)
     for stock in stock_data:
       for stock_from_list in stock_list:
         if stock_from_list.stock == stock['Symbol']:
@@ -71,8 +74,8 @@ def plot(user_id):
   '''Gets Months of historical info on stock and for the graph plots of portfolio'''
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
-  value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
   if stocks:
+    value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
     data, closes = [], []
     data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]

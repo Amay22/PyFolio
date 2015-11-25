@@ -46,6 +46,8 @@ class StockPortfolio(models.Model):
     stock_user.save()
     result = StockPortfolio.objects.filter(stock=stock_symbol, user=stock_user)[0]
     result.shares -= int(num_shares)
+    print(result.shares)
     if result.shares == 0:
       result.delete()
-    result.save()
+    else :
+      result.save()
