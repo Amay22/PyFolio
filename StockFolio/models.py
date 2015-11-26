@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class StockFolioUser(models.Model):
   '''Add StockFolio data to User'''
-  first_name = models.CharField(default='')
-  last_name = models.CharField(default='')
+  first_name = models.CharField(default='', max_length=1)
+  last_name = models.CharField(default='', max_length=1)
   user = models.OneToOneField(User)
   expenditure = models.FloatField(default=0)
   profit = models.FloatField(default=0)

@@ -61,6 +61,10 @@ def register_user(request):
     except User.DoesNotExist:
       pass
     # Input Field checks
+    if len(first_name) < 1:
+      errors.append('Enter a valid First Name that is more than 1 characters')
+    if len(last_name) < 1:
+      errors.append('Enter a valid Last Name that is more than 1 characters')
     if len(username) < 3:
       errors.append('Enter a valid Username that is more than 3 characters')
     if len(password) < 3:
