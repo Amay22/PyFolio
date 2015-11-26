@@ -14,9 +14,70 @@
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/d3/d3.v3.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/techanjs/techan.min.js"></script>
   {% endblock scripts %}
+  <style>
+        h1 {
+            font-size: 22px;
+            color: midnightblue;
+            font-weight: 400;
+            margin-bottom: 30px;
+            margin-left: 100px;
+            margin-top: 100px;
+        }
+        .navbar {
+            background-color:lightblue;
+            font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+            margin-bottom: 0%;
+            margin-top: 0%;
+            border-radius: 0;
+        }
+        .navbar li a, .navbar .navbar-brand {
+            color: #818181 !important;
+        }
+        .navbar-nav li a:hover, .navbar-nav li.active a {
+            color: darkblue !important;
+            background-color: #fff !important;
+        }
+        .navbar-default .navbar-toggle {
+            border-color: transparent;
+            color: #818181 !important;
+        }
+        footer {
+          background-color: lightblue;
+          height: 40px;
+          bottom: 0;
+          width: 100%;
+          position: fixed;
+        }
+        html, body{
+          height: 100%;
+          width: 100%;
+        }
+    </style>
 </head>
 <body>
-  {% block main %}
-  {% endblock %}
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/portfolio.html"><strong>PyFolio</strong></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#about"><small>HOME</small></a></li>
+          <li><a href="#about"><small>ABOUT</small></a></li>
+          <li><a href="#team"><small>TEAM</small></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    {% block main %}
+    {% endblock main %}
+  </div>
+  <footer class="footer">
+  <div class="container">
+    <p class="text-muted">Place sticky footer content here.</p>
+  </div>
+</footer>
 </body>
+
 </html>
