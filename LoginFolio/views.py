@@ -47,9 +47,11 @@ def register_user(request):
   '''Form support for User Registration Process'''
   if request.method == "POST":
     # Get POST params from request
-    username = request.POST.get('username', '')
+    f_name = request.POST.get('first_name', '')
+    l_name = request.POST.get('last_name', '')
+    username = request.POST.get('email', '')
     password = request.POST.get('password', '')
-    confirm_password = request.POST.get('confirm-password', '')
+    confirm_password = request.POST.get('password_confirmation', '')
 
     errors = []
     # Check if the user already exists
@@ -70,7 +72,7 @@ def register_user(request):
 
     # Create a User and redirect to login
     user = User.objects.create_user(username, password=password)
-    StockFolioUser.objects.create(user=user)
+    StockFolioUser.objects.create(user=user,  first_name=f_name, last_name=l_name)
     return render(request, 'LoginFolio/login.html')
   else:
     # Display registration form
