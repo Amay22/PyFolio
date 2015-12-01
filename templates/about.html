@@ -1,5 +1,45 @@
 {% extends 'default.html' %}
 
 {% block main %}
-About Page
+<div class="jumbotron text-center">
+  <h1>PyFolio</h1>
+  <p>A place to build your stock portfolio even before investing</p>
+  <form class="form-inline">
+    <input type="email" class="form-control" size="50" placeholder="Email Address" required>
+    <button type="button" class="btn btn-danger">Subscribe</button>
+  </form>
+</div>
+
+
+<!--about page missino and value -->
+<div class="container-fluid bg-grey text-center">
+      <h2><strong>OUR MISSION:</strong></h2><br>
+      <p>Making investment easier through knowledge and technology.</p>
+
+      <h2><strong>OUR VALUE:</strong></h2><br>
+      <p>PyFolio uses accurate and real-time stock market data to paint the picture of investment portfolio for prospective investors.</p>
+        <br>
+      <p>Our users include independent traders, individual soon-to-be investors, students, and many more. Regardless of who you are, PyFolio can provide you the most updated information with highly visualized analysis on individual stock level and on aggregated portfolio level.</p>
+        <br>
+      <p>This user-friendly application is completely free and easy to use. It is a one-stop shop for users to gather data, news, and analyses in order to build value-adding portfolios and start investing.</p>
+</div>
+
+<!-- Container (Services Section) -->
+<div id="services" class="container-fluid text-center">
+  <h2>SERVICES WE OFFER</h2>
+  <br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-off logo-small"></span>
+      <h4>DATA</h4>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-heart logo-small"></span>
+      <h4>ANALYSIS</h4>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-lock logo-small"></span>
+      <h4>NEWS</h4>
+    </div>
+  </div>
 {% endblock %}
