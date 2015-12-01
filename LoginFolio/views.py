@@ -17,19 +17,10 @@ def index():
 def login_user(request):
   '''Form support for Login'''
   if request.method == "POST":
-    username = request.POST.get('username', '')
+    email = request.POST.get('email', '')
     password = request.POST.get('password', '')
 
-    errors = []
-
-    if username is None or not username:
-      errors.append('Invalid Username')
-    if password is None or not password:
-      errors.append('Invalid Password')
-    if len(errors) > 0:
-      return render(request, 'LoginFolio/login.html', {'errors' : errors})
-
-    authenticated = authenticate(username=username, password=password)
+    authenticated = authenticate(username=email, password=password)
 
     # Valid username and password
     if authenticated is not None and authenticated.is_active:
@@ -49,24 +40,19 @@ def register_user(request):
     # Get POST params from request
     f_name = request.POST.get('first_name', '')
     l_name = request.POST.get('last_name', '')
-    username = request.POST.get('email', '')
+    email = request.POST.get('email', '')
     password = request.POST.get('password', '')
     confirm_password = request.POST.get('password_confirmation', '')
 
     errors = []
     # Check if the user already exists
     try:
-      User.objects.get(username=username)
+      User.objects.get(username=email)
       errors.append('A user by that username already exists')
     except User.DoesNotExist:
       pass
+
     # Input Field checks
-    if len(first_name) < 1:
-      errors.append('Enter a valid First Name that is more than 1 characters')
-    if len(last_name) < 1:
-      errors.append('Enter a valid Last Name that is more than 1 characters')
-    if len(username) < 3:
-      errors.append('Enter a valid Username that is more than 3 characters')
     if len(password) < 3:
       errors.append('Enter a valid password that is more than 3 characters')
     if password != confirm_password:
@@ -75,7 +61,7 @@ def register_user(request):
       return render(request, 'LoginFolio/register.html', {'errors' : errors})
 
     # Create a User and redirect to login
-    user = User.objects.create_user(username, password=password)
+    user = User.objects.create_user(email, password=password)
     StockFolioUser.objects.create(user=user,  first_name=f_name, last_name=l_name)
     return render(request, 'LoginFolio/login.html')
   else:
@@ -86,3 +72,16 @@ def logout_user(request):
   '''Logouts the currently signed in user and redirects to login'''
   logout(request)
   return redirect('LoginFolio/login.html')
+
+def home(request):
+  '''Redirects to the Home page'''
+  return render(request, 'home.html')
+
+def about(request):
+  '''Redirects to the Home page'''
+  return render(request, 'about.html')
+
+def team(request):
+  '''Redirects to the Team page'''
+  return render(request, 'team.html')
+
