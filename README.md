@@ -30,4 +30,7 @@ o	Industry related news
 In summary, PyFolio is a one-stop shop for users to gather data, news, and analysis in order to build value-adding portfolios. It is practical and useful in many ways. Hope you will enjoy using PyFolio.
 
 
-```testing```
+``` 
+testing
+how to run 
+```
