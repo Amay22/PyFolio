@@ -141,7 +141,14 @@
           <li><a href="/team"><small>TEAM</small></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% if user.is_anonymous %}
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% else %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>  {{ user }} </a>
+            <ul class="dropdown-menu">
+              <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+            </ul>
+          {% endif %}
         </ul>
       </div>
     </div>
