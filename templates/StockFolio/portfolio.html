@@ -1,6 +1,9 @@
 {% extends 'default.html' %}
 
 {% block main %}
+  <br>
+  <br>
+  <br>
   <script>
     var stock_symbols = {{symbols | safe }}
   </script>
@@ -11,7 +14,8 @@
     <script src="{{ STATIC_URL }}scripts/coffee/input_validation.coffee" type="text/coffeescript"></script>
   {% endcompress %}
 
-  <form method="post" id="find-stock" action="portfolio">
+
+  <form class="form-inline" role="form" method="post" id="find-stock" action="portfolio">
     {% csrf_token %}
     {% for error in errors %}
       {{ error }}<br>
@@ -22,10 +26,15 @@
     {% compress js %}
       <script src="{{ STATIC_URL }}scripts/coffee/autocomplete_symbols.coffee" type="text/coffeescript"></script>
     {% endcompress %}
-
-    <input autofocus="true" name="stock" id="input-find-stock" placeholder="Stock" type="text"/>
-    <input type="hidden" name="which-form" value="find-stock"/>
-    <button type="submit">Find Stock</button>
+    <div class="form-group">
+      <div class="col-sm-8">
+        <input type="text" autofocus="true" name="stock" id="input-find-stock" class="form-control" placeholder="Enter stock symbol">
+        <input type="hidden" name="which-form" value="find-stock"/>
+      </div>
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary">Look up</button>
+      </div>
+    </div>
   </form>
 
   {% if stock %}
