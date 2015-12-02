@@ -28,18 +28,16 @@ Our target audience includes anyone and everyone who is interested in stock inve
 
 In summary, PyFolio is a one-stop shop for users to gather data, news, and analysis in order to build value-adding portfolios. It is practical and useful in many ways. Hope you will enjoy using PyFolio.
 
-
+# How to Run
 ``` 
-# How to Run 
-
-Make sure below items have been installed before running the application
+First, make sure below items have been installed before running the application
 1. Install node if haven't done so already. 
 2. install coffee if haven't done so already.
 3. sudo npm install -g coffee-script
 4. pip install –r requirments.txt
 5. pip install django
 
-Use the below command to run the application:
+Then use the below commands to run the application:
 1. python manage.py makemigrations
   * This is to migrate the codes to the local server
 2. python manage.py migrate
