@@ -1,7 +1,6 @@
 # PyFolio
 ## OVERVIEW: 
-Stock Portfolio with trading Simulation. Python Django Framework.
-PyFolio is a free web application designed to provide stock information and track portfolio performance based on users’ selections. It uses real-time stock market data to paint the most accurate picture of investment portfolios customized for perspective investors. It allows users to design their own portfolios and display quantitative factors with highly visualized graphs and charts.
+PyFolio is a free web application designed to provide trading simulations to users and it is built on Python Django Framework. PyFolio uses real-time stock market data to paint the most accurate picture of investment portfolios customized for perspective investors. It allows users to design their own portfolios and display quantitative factors with highly visualized graphs and charts.
 ## TARGET AUDIENCE:
 Our target audience includes anyone and everyone who is interested in stock investing. Whether you are new to the stock market and want to test the water before turning to a stockbroker, or you are a student interested in investing and looking for a place to do market simulation, or you are an experienced independent stock trader looking for a place to test out different portfolio strategies but don’t have access to the tools, PyFolio is the right place for you.
 ## FEATURES:
@@ -31,6 +30,18 @@ In summary, PyFolio is a one-stop shop for users to gather data, news, and analy
 
 
 ``` 
-testing
-how to run 
+#How to Run 
+
+Make sure below items are installed
+1. Install node if haven't done so already. 
+2. install coffee if haven't done so already.
+3. sudo npm install -g coffee-script
+4. pip install –r requirments.txt
+5. pip install django
+
+Use the below command to run the application:
+1. python manage.py makemigrations
+2. python manage.py migrate
+3. python manage.py runserver 8001
+
 ```
