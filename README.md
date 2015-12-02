@@ -27,7 +27,7 @@ Our target audience includes anyone and everyone who is interested in stock inve
 * User-Friendly and self-explanatory (No need to know big financial terms)
 * Highly visualized information customized to users’ needs
 
-In summary, PyFolio is a one-stop shop for users to gather data, news, and analysis in order to build value-adding portfolios. It is practical and useful in many ways. Hope you will enjoy using PyFolio.
+In summary, PyFolio is a one-stop shop for users to gather data, news, and analysis in order to build value-adding portfolios. It is practical and useful in many ways. Hope you will enjoy using PyFolio. Please [read our Wiki page](https://github.com/Amay22/PyFolio/wiki)
 
 # How to Run
 ``` 
