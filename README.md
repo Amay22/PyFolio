@@ -20,6 +20,7 @@ Our target audience includes anyone and everyone who is interested in stock inve
 * Provides relevant up-to-date news based on users’ portfolio
   * Stock related news
   * Industry related news
+
 ### ADVANTAGES:
 * Completely free of charge
 * Open sources (Project available on GitHub)
