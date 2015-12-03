@@ -45,16 +45,16 @@ Then use the below commands to run the application:
 ```
 python manage.py makemigrations
 ```
-  * This is to migrate the codes to the local server
+  This is to migrate the codes to the local server
 2. 
 ```
 python manage.py migrate
 ```
-  * Repeat this step if there is any significate changes made to the code
+  Repeat this step if there is any significate changes made to the code
 3. 
 ```
 python manage.py runserver
 ```
-  * This step is to run the application on the local host
+  This step is to run the application on the local host
 
 
