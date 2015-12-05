@@ -36,8 +36,10 @@
       </div>
     </div>
   </form>
+
   Money Spent:
   Money Earned:
+
   {% if stock %}
     <div class="page-header">
       <h1>{{ stock.Name }}   {{ stock.Symbol }}</h1>
@@ -59,19 +61,17 @@
         </form>
     </div>
     <ul class="nav nav-tabs" id="product-table">
-      <li class="active"><a href="#1" data-toggle="tab">Basic Information</a></li>
-      <li><a href="#2" data-toggle="tab">Financial Ratios</a></li>
-      <li><a href="#3" data-toggle="tab">Real Time Data</a></li>
-      <li><a href="#4" data-toggle="tab">Changes and Trends</a></li>
-      <li><a href="#5" data-toggle="tab">Additional Information</a></li>
+      <li class="active"><a href="#find-stock1" data-toggle="tab">Basic Information</a></li>
+      <li><a href="#find-stock2" data-toggle="tab">Financial Ratios</a></li>
+      <li><a href="#find-stock3" data-toggle="tab">Real Time Data</a></li>
+      <li><a href="#find-stock4" data-toggle="tab">Changes and Trends</a></li>
+      <li><a href="#find-stock5" data-toggle="tab">Additional Information</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="1">
+      <div class="tab-pane active" id="find-stock1">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol</th>
               <th>Last Price</th>
               <th>Market Cap</th>
               <th>Volume</th>
@@ -89,8 +89,6 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ stock.Name }}</td>
-              <td>{{ stock.Symbol }}</td>
               <td>{{ stock.LastTradePriceOnly }}</td>
               <td>{{ stock.MarketCapitalization }}</td>
               <td>{{ stock.Volume }}</td>
@@ -108,12 +106,10 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="2">
+      <div class="tab-pane" id="find-stock2">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol</th>
               <th>P/E</th>
               <th>Price Sales</th>
               <th>Short Ratio</th>
@@ -129,8 +125,6 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ stock.Name }}</td>
-              <td>{{ stock.Symbol }}</td>
               <td>{{ stock.PERatio }}</td>
               <td>{{ stock.PriceSales }}</td>
               <td>{{ stock.ShortRatio }}</td>
@@ -146,12 +140,10 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="3">
+      <div class="tab-pane" id="find-stock3">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol</th>
               <th>Market Cap</th>
               <th>Days Range</th>
               <th>Ask</th>
@@ -168,8 +160,6 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ stock.Name }}</td>
-              <td>{{ stock.Symbol }}</td>
               <td>{{ stock.MarketCapitalization }}</td>
               <td>{{ stock.DaysRange }}</td>
               <td>{{ stock.Ask }}</td>
@@ -186,12 +176,10 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="4">
+      <div class="tab-pane" id="find-stock4">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Symbol</th>
               <th>Change</th>
               <th>Change %</th>
               <th>Change Yr High</th>
@@ -206,8 +194,6 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ stock.Name }}</td>
-              <td>{{ stock.Symbol }}</td>
               <td style="color: {% if stock.Change|first == '+' %}green{% else %}red{% endif %};">{{ stock.Change }}</td>
               <td style="color: {% if stock.ChangeinPercent|first == '+' %}green{% else %}red{% endif %};">{{ stock.ChangeinPercent }}</td>
               <td style="color: {% if stock.ChangeFromYearHigh|first == '+' %}green{% else %}red{% endif %};">{{ stock.ChangeFromYearHigh }}</td>
@@ -222,7 +208,7 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="5">
+      <div class="tab-pane" id="find-stock5">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -290,79 +276,266 @@
   {% endif %}
 
   {% if portfolio %}
-    <table name="portfolio-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Symbol</th>
-          <th>Shares</th>
-          <th>Last price</th>
-          <th>Change</th>
-          <th>Volume</th>
-          <th>Avg. Vol</th>
-          <th>Open</th>
-          <th>High</th>
-          <th>Low</th>
-          <th>Previous Close</th>
-          <th>52w Range</th>
-          <th>Div & Yield</th>
-          <th></th>
-        </tr>
-      </thead>
-    <tbody>
-      {% for stocks in portfolio %}
-        <tr>
-          <td>{{ stocks.Name }}</td>
-          <td>{{ stocks.Symbol }}</td>
-          <td>{{ stocks.shares }}</td>
-          <td>{{ stocks.LastTradePriceOnly }}</td>
-          <td style="color: {% if stocks.Change|first == '+' %}green{% else %}red{% endif %};">{{ stocks.Change }} ({{ stocks.PercentChange}})</td>
-          <td>{{ stocks.Volume }}</td>
-          <td>{{ stocks.AverageDailyVolume }}</td>
-          <td>{{ stocks.Open }} </td>
-          <td>{{ stocks.DaysHigh }}</td>
-          <td>{{ stocks.DaysLow }}</td>
-          <td>{{ stocks.PreviousClose }}</td>
-          <td>{{ stocks.YearRange }}</td>
-          <td>{{ stocks.DividendShare }} ( {{ stocks.DividendYield }} )</td>
-          <td>
-           <form method="post" action="portfolio">
-            {% csrf_token %}
-            <input name="shares" class="number" placeholder="No. of Shares" type="text"/>
-            <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
-            <input type="hidden" name="cost-per-share" value="{{ stock.LastTradePriceOnly }}"/>
-            <input type="hidden" name="which-form" value="buy-stock"/>
-            <button type="submit">Buy More {{ stocks.Symbol }} </button>
-          </form>
-         </td>
-          <td>
-            <form method="post" action="portfolio">
-              {% csrf_token %}
-              <input name="shares" class="number sell" placeholder="No. of Shares" type="text"/>
-              <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
-              <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
-              <input type="hidden" name="which-form" value="sell-stock"/>
-              <button type="submit">Sell {{ stocks.Symbol }} </button>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+
+    <ul class="nav nav-tabs" id="product-table">
+      <li class="active"><a href="#portfolio1" data-toggle="tab">Basic Information</a></li>
+      <li><a href="#portfolio12" data-toggle="tab">Financial Ratios</a></li>
+      <li><a href="#portfolio13" data-toggle="tab">Real Time Data</a></li>
+      <li><a href="#portfolio14" data-toggle="tab">Changes and Trends</a></li>
+      <li><a href="#portfolio15" data-toggle="tab">Additional Information</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="portfolio11">
+        <table class="table table-condensed table-bordered table-striped volumes">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares</th>
+              <th>Last Price</th>
+              <th>Market Cap</th>
+              <th>Volume</th>
+              <th>Avg Daily Volume</th>
+              <th>Open</th>
+              <th>High</th>
+              <th>Low</th>
+              <th>Previous Close</th>
+              <th>Bid</th>
+              <th>Ask</th>
+              <th>EBITDA</th>
+              <th>Div Yield</th>
+              <th>EPS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for stocks in portfolio %}
+                <td>{{ stocks.Name }}</td>
+                <td>{{ stocks.Symbol }}</td>
+                <td>{{ stocks.shares }}</td>
+                <td>{{ stocks.LastTradePriceOnly }}</td>
+                <td>{{ stocks.MarketCapitalization }}</td>
+                <td>{{ stocks.Volume }}</td>
+                <td>{{ stocks.AverageDailyVolume }}</td>
+                <td>{{ stocks.Open }}</td>
+                <td>{{ stocks.DaysHigh }}</td>
+                <td>{{ stocks.DaysLow }}</td>
+                <td>{{ stocks.PreviousClose }}</td>
+                <td>{{ stocks.Bid }}</td>
+                <td>{{ stocks.Ask }}</td>
+                <td>{{ stocks.EBITDA }}</td>
+                <td>{{ stocks.DividendYield }}</td>
+                <td>{{ stocks.EarningsShare }}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="portfolio12">
+        <table class="table table-condensed table-bordered table-striped volumes">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares</th>
+              <th>P/E</th>
+              <th>Price Sales</th>
+              <th>Short Ratio</th>
+              <th>PEG</th>
+              <th>Book/Value</th>
+              <th>Price/Book</th>
+              <th>EPS Current Yr</th>
+              <th>EPS Next Qtr</th>
+              <th>EPS Next Yr</th>
+              <th>Price EPS Current Yr</th>
+              <th>Price EPS Next Yr</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for stocks in portfolio %}
+                <td>{{ stocks.Name }}</td>
+                <td>{{ stocks.Symbol }}</td>
+                <td>{{ stocks.shares }}</td>
+                <td>{{ stocks.PERatio }}</td>
+                <td>{{ stocks.PriceSales }}</td>
+                <td>{{ stocks.ShortRatio }}</td>
+                <td>{{ stocks.PEGRatio }}</td>
+                <td>{{ stocks.BookValue }}</td>
+                <td>{{ stocks.PriceBook }}</td>
+                <td>{{ stocks.EPSEstimateCurrentYear }}</td>
+                <td>{{ stocks.EPSEstimateNextQuarter }}</td>
+                <td>{{ stocks.EPSEstimateNextYear }}</td>
+                <td>{{ stocks.PriceEPSEstimateCurrentYear }}</td>
+                <td>{{ stocks.PriceEPSEstimateNextYear }}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="portfolio13">
+        <table class="table table-condensed table-bordered table-striped volumes">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares</th>
+              <th>Market Cap</th>
+              <th>Days Range</th>
+              <th>Ask</th>
+              <th>Bid</th>
+              <th>Change</th>
+              <th>Change %</th>
+              <th>After Hr Change</th>
+              <th>Holdings Gain</th>
+              <th>Holdings Gain %</th>
+              <th>Holdings Value</th>
+              <th>P/E</th>
+              <th>Order Book</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for stocks in portfolio %}
+                <td>{{ stocks.Name }}</td>
+                <td>{{ stocks.Symbol }}</td>
+                <td>{{ stocks.shares }}</td>
+                <td>{{ stocks.MarketCapitalization }}</td>
+                <td>{{ stocks.DaysRange }}</td>
+                <td>{{ stocks.Ask }}</td>
+                <td>{{ stocks.Bid }}</td>
+                <td style="color: {% if stocks.Change|first == '+' %}green{% else %}red{% endif %};">{{ stocks.Change }}</td>
+                <td style="color: {% if stocks.ChangeinPercent|first == '+' %}green{% else %}red{% endif %};">{{ stocks.ChangeinPercent }}</td>
+                <td>{{ stocks.AfterHoursChangeRealtime }}</td>
+                <td>{{ stocks.HoldingsGain }}</td>
+                <td>{{ stocks.HoldingsGainPercent }}</td>
+                <td>{{ stocks.HoldingsValue }}</td>
+                <td>{{ stocks.PERatio }}</td>
+                <td>{{ stocks.OrderBookRealtime }}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="portfolio14">
+        <table class="table table-condensed table-bordered table-striped volumes">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares</th>
+              <th>Change</th>
+              <th>Change %</th>
+              <th>Change Yr High</th>
+              <th>Change Yr High %</th>
+              <th>Change Yr Low</th>
+              <th>Change Yr Low %</th>
+              <th>Change 50day Moving Avg</th>
+              <th>Change 50day Moving Avg %</th>
+              <th>Change 200day Moving Avg</th>
+              <th>Change 200day Moving Avg %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% for stocks in portfolio %}
+                <td>{{ stocks.Name }}</td>
+                <td>{{ stocks.Symbol }}</td>
+                <td>{{ stocks.shares }}</td>
+                <td style="color: {% if stocks.Change|first == '+' %}green{% else %}red{% endif %};">{{ stocks.Change }}</td>
+                <td style="color: {% if stocks.ChangeinPercent|first == '+' %}green{% else %}red{% endif %};">{{ stocks.ChangeinPercent }}</td>
+                <td style="color: {% if stocks.ChangeFromYearHigh|first == '+' %}green{% else %}red{% endif %};">{{ stocks.ChangeFromYearHigh }}</td>
+                <td style="color: {% if stocks.PercebtChangeFromYearHigh|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercebtChangeFromYearHigh }}</td>
+                <td style="color: {% if stocks.ChangeFromYearLow|first == '+' %}green{% else %}red{% endif %};">{{ stocks.ChangeFromYearLow }}</td>
+                <td style="color: {% if stocks.PercentChangeFromYearLow|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromYearLow }}</td>
+                <td>{{ stocks.FiftydayMovingAverage }}</td>
+                <td style="color: {% if stocks.PercentChangeFromFiftydayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromFiftydayMovingAverage }}</td>
+                <td>{{ stocks.TwoHundreddayMovingAverage }}</td>
+                <td style="color: {% if stocks.PercentChangeFromTwoHundreddayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromTwoHundreddayMovingAverage }}</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="portfolio15">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Info Item</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Year High</strong></td>
+              <td>{{ stock.YearHigh }}</td>
+            </tr>
+            <tr>
+              <td><strong>Year Low</strong></td>
+              <td>{{ stock.YearLow }}</td>
+            </tr>
+            <tr>
+              <td><strong>Year Range</strong></td>
+              <td>{{ stock.YearRange }}</td>
+            </tr>
+            <tr>
+              <td><strong>Last Trade Date</strong></td>
+              <td>{{ stock.LastTradeDate }}</td>
+            </tr>
+            <tr>
+              <td><strong>Previous Close</strong></td>
+              <td>{{ stock.PreviousClose }}</td>
+            </tr>
+            <tr>
+              <td><strong>ExDividend Date</strong></td>
+              <td>{{ stock.ExDividendDate }}</td>
+            </tr>
+            <tr>
+              <td><strong>Stock Exchange</strong></td>
+              <td>{{ stock.StockExchange }}</td>
+            </tr>
+            <tr>
+              <td><strong>Last Trade Time</strong></td>
+              <td>{{ stock.LastTradeTime }}</td>
+            </tr>
+            <tr>
+              <td><strong>50day Moving Avg</strong></td>
+              <td>{{ stock.FiftydayMovingAverage }}</td>
+            </tr>
+            <tr>
+              <td><strong>200day Moving Avg</strong></td>
+              <td>{{ stock.TwoHundreddayMovingAverage }}</td>
+            </tr>
+            <tr>
+              <td><strong>Dividend Pay Date</strong></td>
+              <td>{{ stock.DividendPayDate }}</td>
+            </tr>
+            <tr>
+              <td><strong>One Year Target Price</strong></td>
+              <td>{{ stock.OneyrTargetPrice }}</td>
+            </tr>
+            <tr>
+              <td><strong>Dividend Share</strong></td>
+              <td>{{ stock.DividendShare }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   {% endif %}
 
   {% if portfolio_rows %}
 
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#1" data-toggle="tab"><h2>Portfolio OHLC and Volume</h2></a></li>
-      <li><a href="#2" data-toggle="tab"><h2>PortFolio Value vs. Time</h2></a></li>
+      <li class="active"><a href="#chart1" data-toggle="tab"><h2>Portfolio OHLC and Volume</h2></a></li>
+      <li><a href="#chart2" data-toggle="tab"><h2>PortFolio Value vs. Time</h2></a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="1">
+      <div class="tab-pane active" id="chart1">
         <div id="portfolio-ohlc"></div>
       </div>
-      <div class="tab-pane active" id="2">
+      <div class="tab-pane" id="chart2">
         <div id="portfolio-time-val-graph" style="height:400px;min-width:310px"></div>
       </div>
     </div>
@@ -408,5 +581,6 @@
       <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/techan-plot.css" />
     {% endcompress %}
   {% endif %}
-
+  <br>
+  <br>
 {% endblock %}
