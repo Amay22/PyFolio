@@ -66,6 +66,7 @@
       <li><a href="#find-stock3" data-toggle="tab">Real Time Data</a></li>
       <li><a href="#find-stock4" data-toggle="tab">Changes and Trends</a></li>
       <li><a href="#find-stock5" data-toggle="tab">Additional Information</a></li>
+      <li><a href="#find-stock6" data-toggle="tab">News</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="find-stock1">
@@ -270,6 +271,17 @@
               <td>{{ stock.DividendShare }}</td>
             </tr>
           </tbody>
+        </table>
+      </div>
+      <div class="tab-pane" id="find-stock6">
+        <table class="table table-striped">
+          {% for new in news %}
+            <tr>
+              <td>
+                <a href="{{ new.link }}">{{ new.title }}</a>
+              </td>
+            </tr>
+          {% endfor%}
         </table>
       </div>
     </div>
