@@ -5,7 +5,7 @@
   <br>
   <br>
   <script>
-    var stock_symbols = {{symbols | safe }}
+    var stock_symbols = {{ symbols | safe }}
   </script>
 
   {% load compress %}
@@ -38,8 +38,8 @@
   </form>
 
   <div align="right" style="position:relative;" class="page-header">
-    Money Spent: {{ spent }}<br>
-    Money Earned: {{ earned }}<br>
+    Money Spent: {{ money.spent }}<br>
+    Money Earned: {{ money.earnt }}<br>
     Portfolio Value: {{ value }}<br>
   </div>
 

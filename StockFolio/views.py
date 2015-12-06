@@ -24,21 +24,21 @@ def portfolio(request):
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip().split(' ')[0].strip().upper()
       if symbol != '':
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money(user_id) })
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money(user_id) })
     elif which_form == 'buy-sell':
       symbol = request.POST.get('stock-symbol', '').strip()
       if request.POST.get('buy-stock'):
         StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
       elif request.POST.get('sell-stock'):
         StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money(user_id) })
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money(user_id) })
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -72,6 +72,16 @@ def portfolio_stocks(user_id):
           stock['shares'] = stock_from_list.shares
     portfolio_info = [stock_data] if stock_data.__class__ == dict else stock_data
   return portfolio_info
+
+def money(user_id):
+  '''Gets money earnt spent and portfolio value'''
+  user = StockFolioUser.objects.filter(user=user_id)[0]
+  amount = {}
+  amount['spent'] = user.expenditure
+  amount['earnt'] = user.profit
+  print(json.dumps(amount))
+  return json.dumps(amount)
+
 
 def plot(user_id):
   '''Gets Months of historical info on stock and for the graph plots of portfolio'''
