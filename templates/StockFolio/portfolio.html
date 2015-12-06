@@ -17,9 +17,6 @@
 
   <form role="form" method="post" id="find-stock" action="portfolio">
     {% csrf_token %}
-    {% for error in errors %}
-      {{ error }}<br>
-    {% endfor %}
 
     {% load compress %}
     {% load staticfiles %}
@@ -38,9 +35,9 @@
   </form>
 
   <div align="right" style="position:relative;" class="page-header">
-    Money Spent: {{ money.spent }}<br>
-    Money Earned: {{ money.earnt }}<br>
-    Portfolio Value: {{ value }}<br>
+    Money Spent: {{ money.spent | floatformat:2 }}<br>
+    Money Earned: {{ money.earnt | floatformat:2 }}<br>
+    Portfolio Value: {{ money.value | floatformat:2 }}<br>
   </div>
 
   {% if stock %}
