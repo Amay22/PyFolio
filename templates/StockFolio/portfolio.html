@@ -15,7 +15,7 @@
   {% endcompress %}
 
 
-  <form class="form-inline" role="form" method="post" id="find-stock" action="portfolio">
+  <form role="form" method="post" id="find-stock" action="portfolio">
     {% csrf_token %}
     {% for error in errors %}
       {{ error }}<br>
@@ -28,7 +28,7 @@
     {% endcompress %}
     <div class="form-group">
       <div class="col-sm-8">
-        <input type="text" autofocus="true" name="stock" id="input-find-stock" class="form-control" placeholder="Enter stock symbol">
+        <input type="text" name="stock" id="input-find-stock" class="form-control" placeholder="Enter stock symbol">
         <input type="hidden" name="which-form" value="find-stock"/>
       </div>
       <div class="btn-group">
@@ -37,7 +37,7 @@
     </div>
   </form>
 
-  <div align="right" style="position:relative;top:-70px;" class="page-header">
+  <div align="right" style="position:relative;" class="page-header">
     Money Spent: {{ spent }}<br>
     Money Earned: {{ earned }}<br>
     Portfolio Value: {{ value }}<br>
@@ -45,7 +45,7 @@
 
   {% if stock %}
     <div class="page-header">
-      <h1>{{ stock.Name }}   {{ stock.Symbol }}</h1>
+      <h2>{{ stock.Name }}   {{ stock.Symbol }}</h2>
         <form method="post" action="portfolio">
           {% csrf_token %}
           <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
@@ -349,12 +349,13 @@
                     {% csrf_token %}
                     <div class="form-group">
                       <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
-                      <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+                      <input type="hidden" name="which-form" value="buy-sell"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
                       <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
                     </div>
                     <div class="btn-group">
-                      <button type="button" name="buy-stock" class="btn btn-primary">Buy</button>
-                      <button type="button" name="sell-stock" class="btn btn-primary">Sell</button>
+                      <button type="submit" name="buy-stock" value="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="submit" name="sell-stock" value="sell-stock" class="btn btn-primary">Sell</button>
                     </div>
                   </form>
                 </td>
@@ -401,6 +402,21 @@
                 <td>{{ stocks.EPSEstimateNextYear }}</td>
                 <td>{{ stocks.PriceEPSEstimateCurrentYear }}</td>
                 <td>{{ stocks.PriceEPSEstimateNextYear }}</td>
+                <td>
+                  <form method="post" class="form-inline" role="form" action="portfolio">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
+                      <input type="hidden" name="which-form" value="buy-sell"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
+                      <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
+                    </div>
+                    <div class="btn-group">
+                      <button type="submit" name="buy-stock" value="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="submit" name="sell-stock" value="sell-stock" class="btn btn-primary">Sell</button>
+                    </div>
+                  </form>
+                </td>
               {% endfor %}
             </tr>
           </tbody>
@@ -446,6 +462,21 @@
                 <td>{{ stocks.HoldingsValue }}</td>
                 <td>{{ stocks.PERatio }}</td>
                 <td>{{ stocks.OrderBookRealtime }}</td>
+                <td>
+                  <form method="post" class="form-inline" role="form" action="portfolio">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
+                      <input type="hidden" name="which-form" value="buy-sell"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
+                      <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
+                    </div>
+                    <div class="btn-group">
+                      <button type="submit" name="buy-stock" value="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="submit" name="sell-stock" value="sell-stock" class="btn btn-primary">Sell</button>
+                    </div>
+                  </form>
+                </td>
               {% endfor %}
             </tr>
           </tbody>
@@ -486,6 +517,21 @@
                 <td style="color: {% if stocks.PercentChangeFromFiftydayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromFiftydayMovingAverage }}</td>
                 <td>{{ stocks.TwoHundreddayMovingAverage }}</td>
                 <td style="color: {% if stocks.PercentChangeFromTwoHundreddayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromTwoHundreddayMovingAverage }}</td>
+                <td>
+                  <form method="post" class="form-inline" role="form" action="portfolio">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
+                      <input type="hidden" name="which-form" value="buy-sell"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
+                      <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
+                    </div>
+                    <div class="btn-group">
+                      <button type="submit" name="buy-stock" value="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="submit" name="sell-stock" value="sell-stock" class="btn btn-primary">Sell</button>
+                    </div>
+                  </form>
+                </td>
               {% endfor %}
             </tr>
           </tbody>

@@ -31,9 +31,12 @@ def portfolio(request):
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
       return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
-    elif which_form == 'sell-stock':
+    elif which_form == 'buy-sell':
       symbol = request.POST.get('stock-symbol', '').strip()
-      StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
+      if request.POST.get('buy-stock'):
+        StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
+      elif request.POST.get('sell-stock'):
+        StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
       return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
   return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
 
