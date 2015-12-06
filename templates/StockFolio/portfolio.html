@@ -37,8 +37,11 @@
     </div>
   </form>
 
-  Money Spent:
-  Money Earned:
+  <div align="right" style="position:relative;top:-70px;" class="page-header">
+    Money Spent: {{ spent }}<br>
+    Money Earned: {{ earned }}<br>
+    Portfolio Value: {{ value }}<br>
+  </div>
 
   {% if stock %}
     <div class="page-header">
@@ -288,20 +291,18 @@
   {% endif %}
 
   {% if portfolio %}
-
-    <div class="page-header">
-      <h1>{{ stock.Name }}   {{ stock.Symbol }}</h1>
+    <div align="center" class="page-header">
+      <h1>PORTFOLIO</h1>
     </div>
-
 
     <ul class="nav nav-tabs" id="product-table">
       <li class="active"><a href="#portfolio1" data-toggle="tab">Basic Information</a></li>
-      <li><a href="#portfolio12" data-toggle="tab">Financial Ratios</a></li>
-      <li><a href="#portfolio13" data-toggle="tab">Real Time Data</a></li>
-      <li><a href="#portfolio14" data-toggle="tab">Changes and Trends</a></li>
+      <li><a href="#portfolio2" data-toggle="tab">Financial Ratios</a></li>
+      <li><a href="#portfolio3" data-toggle="tab">Real Time Data</a></li>
+      <li><a href="#portfolio4" data-toggle="tab">Changes and Trends</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="portfolio11">
+      <div class="tab-pane active" id="portfolio1">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
@@ -321,6 +322,7 @@
               <th>EBITDA</th>
               <th>Div Yield</th>
               <th>EPS</th>
+              <th style="min-width:200px">BUY/SELL</th>
             </tr>
           </thead>
           <tbody>
@@ -342,12 +344,26 @@
                 <td>{{ stocks.EBITDA }}</td>
                 <td>{{ stocks.DividendYield }}</td>
                 <td>{{ stocks.EarningsShare }}</td>
+                <td>
+                  <form method="post" class="form-inline" role="form" action="portfolio">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stock.Symbol }}"/>
+                      <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" name="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="button" name="sell-stock" class="btn btn-primary">Sell</button>
+                    </div>
+                  </form>
+                </td>
               {% endfor %}
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="portfolio12">
+      <div class="tab-pane" id="portfolio2">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
@@ -365,6 +381,7 @@
               <th>EPS Next Yr</th>
               <th>Price EPS Current Yr</th>
               <th>Price EPS Next Yr</th>
+              <th style="min-width:200px">BUY/SELL</th>
             </tr>
           </thead>
           <tbody>
@@ -389,7 +406,7 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="portfolio13">
+      <div class="tab-pane" id="portfolio3">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
@@ -408,6 +425,7 @@
               <th>Holdings Value</th>
               <th>P/E</th>
               <th>Order Book</th>
+              <th style="min-width:200px">BUY/SELL</th>
             </tr>
           </thead>
           <tbody>
@@ -433,7 +451,7 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane" id="portfolio14">
+      <div class="tab-pane" id="portfolio4">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
