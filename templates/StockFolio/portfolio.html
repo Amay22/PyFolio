@@ -306,6 +306,7 @@
               <th>Name</th>
               <th>Symbol</th>
               <th>Shares</th>
+              <th>Cost</th>
               <th>Last Price</th>
               <th>Market Cap</th>
               <th>Volume</th>
@@ -323,11 +324,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {% for stocks in portfolio %}
+            {% for stocks in portfolio %}
+              <tr>
                 <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
+                <td></td>
                 <td>{{ stocks.LastTradePriceOnly }}</td>
                 <td>{{ stocks.MarketCapitalization }}</td>
                 <td>{{ stocks.Volume }}</td>
@@ -356,8 +358,8 @@
                     </div>
                   </form>
                 </td>
-              {% endfor %}
-            </tr>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -383,9 +385,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {% for stocks in portfolio %}
-                <td>{{ stocks.Name }}</td>
+            {% for stocks in portfolio %}
+              <tr>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
                 <td>{{ stocks.PERatio }}</td>
@@ -414,8 +415,8 @@
                     </div>
                   </form>
                 </td>
-              {% endfor %}
-            </tr>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -442,8 +443,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {% for stocks in portfolio %}
+            {% for stocks in portfolio %}
+              <tr>
                 <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
@@ -474,8 +475,8 @@
                     </div>
                   </form>
                 </td>
-              {% endfor %}
-            </tr>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -499,8 +500,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {% for stocks in portfolio %}
+            {% for stocks in portfolio %}
+              <tr>
                 <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
@@ -529,8 +530,8 @@
                     </div>
                   </form>
                 </td>
-              {% endfor %}
-            </tr>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -554,7 +555,7 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">
+      <div class="panel-heading text-center">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">Portfolio Historical Data</a>
         </h4>
@@ -567,6 +568,7 @@
               <th>Date</th>
               <th>Percent</th>
               <th>Volume</th>
+              <th>Open</th>
               <th>High</th>
               <th>Low</th>
               <th>Close</th>
@@ -579,7 +581,8 @@
                 <td style="color: {% if row.Percent > 0 %}green{% else %}red{% endif %};">
                     {% if row.Percent > 0 %}+{% endif %}{{ row.Percent | floatformat:2 }}
                 </td>
-                <td class="portfolio-table-vol">{{ row.Volume | floatformat }}</td>
+                <td class="portfolio-table-vol">{{ row.Volume }}</td>
+                <td class="portfolio-table-open">{{ row.Open | floatformat:2 }}</td>
                 <td class="portfolio-table-high">{{ row.High | floatformat:2 }}</td>
                 <td class="portfolio-table-low">{{ row.Low | floatformat:2 }}</td>
                 <td class="portfolio-table-close">{{ row.AdjClose | floatformat:2 }}</td>

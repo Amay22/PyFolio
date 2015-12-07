@@ -80,39 +80,28 @@ def plot(user_id):
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
   user = StockFolioUser.objects.filter(user=user_id)[0]
-  money = {}
+  money = {'spent' : user.spent , 'earnt' : user.spent, 'value' : 0 }
   if stocks:
-    value = user.spent
-    money['spent'] = user.spent
-    money['earnt'] = user.earnt
-    data, closes = [], []
     data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
     for idx, day in enumerate(days):
-      row = {'Value': 0, 'Date': day, 'Percent': 0, 'Volume': 0, 'High': 0, 'Low': 0, 'AdjClose': 0}
-      if idx == 0:
-        closes = [float(history[idx]['AdjClose']) for history in data]
-      else:
-        for j, history in enumerate(data):
-          ratio = closes[j] / 100
-          percent = (float(history[idx]['AdjClose']) - closes[j]) / ratio
-          closes[j] = float(history[idx]['AdjClose'])
-          if idx > 1:
-            value += value * (percent / 100)
-          row['Value'] = value
-          row['Percent'] += percent
-          row['Volume'] += float(history[idx]['Volume'])
-          for key in ['High', 'Low', 'AdjClose']:
-            row[key] += float(history[idx][key])
-        row['Percent'] /= len(data)
-        for key in ['High', 'Low', 'AdjClose']:
-          row[key] /= len(data)
-        rows.append(row)
+      row = {}
+      first = True
+      for stock in data:
+        if first:
+          row = {'Value' : float(stock[idx]['Close']), 'Date' : day , 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': float(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
+          first = False
+        else:
+          row['Date'] = day
+          row['Value'] += float(stock[idx]['Close'])
+          row['Volume'] += float(stock[idx]['Volume'])
+          row['Open'] = row['Open']  + float(stock[idx]['Open'])/2
+          row['High'] = (row['High']  + float(stock[idx]['High']))/2
+          row['Low'] = (row['Low']  + float(stock[idx]['Low']))/2
+          row['AdjClose'] = (row['AdjClose']  + float(stock[idx]['AdjClose']))/2
+          row['Percent'] += (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100
+      rows.append(row)
     rows.reverse()
   if len(rows) > 0:
     money['value'] = rows[0]['Value']
-  else:
-    money['earnt'] = 0
-    money['spent'] = 0
-    money['value'] = 0
   return { 'rows' : rows, 'money' : money }
