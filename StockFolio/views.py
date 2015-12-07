@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Takes care of checking if the user is logged in or not
 from django.contrib.auth.decorators import login_required
 # Yahoo YQL stockretiever to get the stock infos
-from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_3_month_info
+from lib.yahoo_stock_scraper.stockretriever import get_current_info, get_historical_info, get_3_month_info, get_news_feed
 # For workbook to create the historical data of a stock
 import xlwt
 # Http clients to send the attachment file for historical data
@@ -19,23 +19,28 @@ import json
 def portfolio(request):
   '''The main method for all the user functionality'''
   user_id = request.user.id
+  rows = plot(user_id)['rows']
+  money = plot(user_id)['money']
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip().split(' ')[0].strip().upper()
       if symbol != '':
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
-    elif which_form == 'sell-stock':
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+    elif which_form == 'buy-sell':
       symbol = request.POST.get('stock-symbol', '').strip()
-      StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS)})
+      if request.POST.get('buy-stock'):
+        StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
+      elif request.POST.get('sell-stock'):
+        StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : portfolio_stocks(user_id), 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -74,8 +79,12 @@ def plot(user_id):
   '''Gets Months of historical info on stock and for the graph plots of portfolio'''
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
+  user = StockFolioUser.objects.filter(user=user_id)[0]
+  money = {}
   if stocks:
-    value = StockFolioUser.objects.filter(user=user_id)[0].expenditure
+    value = user.spent
+    money['spent'] = user.spent
+    money['earnt'] = user.earnt
     data, closes = [], []
     data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
@@ -100,4 +109,10 @@ def plot(user_id):
           row[key] /= len(data)
         rows.append(row)
     rows.reverse()
-  return rows
+  if len(rows) > 0:
+    money['value'] = rows[0]['Value']
+  else:
+    money['earnt'] = 0
+    money['spent'] = 0
+    money['value'] = 0
+  return { 'rows' : rows, 'money' : money }

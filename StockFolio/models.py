@@ -7,8 +7,8 @@ class StockFolioUser(models.Model):
   first_name = models.CharField(default='', max_length=1)
   last_name = models.CharField(default='', max_length=1)
   user = models.OneToOneField(User)
-  expenditure = models.FloatField(default=0)
-  profit = models.FloatField(default=0)
+  earnt = models.FloatField(default=0)
+  spent = models.FloatField(default=0)
 
 class StockPortfolio(models.Model):
   '''Stock Table to maintain the stock bought'''
@@ -24,14 +24,7 @@ class StockPortfolio(models.Model):
   def buy(user_id, stock_symbol, num_shares, cost_per_share):
     '''Create stock row or add num of shares'''
     stock_user = StockFolioUser.objects.get(user=user_id)
-    stock_user.expenditure += float(cost_per_share) * int(num_shares)
-    if stock_user.profit > 0:
-      if stock_user.expenditure > stock_user.profit:
-        stock_user.expenditure -= stock_user.profit
-        stock_user.profit = 0
-      else:
-        stock_user.profit -= stock_user.expenditure
-        stock_user.expenditure = 0
+    stock_user.spent += float(cost_per_share) * int(num_shares)
     stock_user.save()
     result = StockPortfolio.objects.get_or_create(stock=stock_symbol, user=stock_user)[0]
     result.shares += int(num_shares)
@@ -41,14 +34,14 @@ class StockPortfolio(models.Model):
   def sell(user_id, stock_symbol, num_shares, cost_per_share):
     '''Create stock row or negate num of shares'''
     stock_user = StockFolioUser.objects.get(user=user_id)
-    if float(cost_per_share) * int(num_shares) > stock_user.expenditure:
-      stock_user.profit += (float(cost_per_share) * int(num_shares)) - stock_user.expenditure
-    else:
-      stock_user.expenditure -= float(cost_per_share) * int(num_shares)
-    stock_user.save()
     result = StockPortfolio.objects.filter(stock=stock_symbol, user=stock_user)[0]
     result.shares -= int(num_shares)
-    print(result.shares)
+    if result.shares < 0:
+      result.shares = 0
+      stock_user.earnt += float(cost_per_share) * result.shares
+    else:
+      stock_user.earnt += float(cost_per_share) * int(num_shares)
+    stock_user.save()
     if result.shares == 0:
       result.delete()
     else :
