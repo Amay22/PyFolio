@@ -34,10 +34,14 @@
     </div>
   </form>
 
-  <div align="right" style="position:relative;" class="page-header">
-    Money Spent: {{ money.spent | floatformat:2 }}<br>
-    Money Earned: {{ money.earnt | floatformat:2 }}<br>
-    Portfolio Value: {{ money.value | floatformat:2 }}<br>
+  <div align="center" style="color: {% if money.profit == '+' %}green{% else %}red{% endif %};" class="page-header">
+    <table class="table table-condensed table-bordered table-striped volumes">
+      <tr>
+        <th>Spent: {{ money.spent | floatformat:2 }}</th>
+        <th>Earned: {{ money.earnt | floatformat:2 }}</th>
+        <th>Portfolio Value: {{ money.value | floatformat:2 }}</th>
+      </tr>
+    </table>
   </div>
 
   {% if stock %}
