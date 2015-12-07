@@ -329,7 +329,7 @@
                 <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
-                <td></td>
+                <td>{{ stocks.cost }}</td>
                 <td>{{ stocks.LastTradePriceOnly }}</td>
                 <td>{{ stocks.MarketCapitalization }}</td>
                 <td>{{ stocks.Volume }}</td>
@@ -387,6 +387,7 @@
           <tbody>
             {% for stocks in portfolio %}
               <tr>
+                <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
                 <td>{{ stocks.PERatio }}</td>
@@ -497,6 +498,7 @@
               <th>Change 50day Moving Avg %</th>
               <th>Change 200day Moving Avg</th>
               <th>Change 200day Moving Avg %</th>
+              <th style="min-width:200px">BUY/SELL</th>
             </tr>
           </thead>
           <tbody>
