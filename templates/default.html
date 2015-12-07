@@ -5,6 +5,7 @@
   <title>PyFolio</title>
   <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/jquery-ui/jquery-ui-1.11.4.min.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/styles.css">
   {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery/jquery-ui-1.11.4.min.js"></script>
@@ -14,117 +15,6 @@
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/d3/d3.v3.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/techanjs/techan.min.js"></script>
   {% endblock scripts %}
-  <style>
-    body {
-        font: 400 15px Lato, sans-serif;
-        font-family: Verdana;
-        line-height: 1.8;
-        color: #818181;
-    }
-    h2 {
-        font-size: 24px;
-        text-transform: uppercase;
-        color: #303030;
-        font-weight: 600;
-        margin-bottom: 30px;
-    }
-
-    .jumbotron {
-        background-color:lightblue;
-        color: grey;
-        padding: 100px 25px;
-        font-family: Montserrat, sans-serif;
-    }
-
-    .container-fluid {
-        padding: 60px 50px;
-    }
-    .bg-grey {
-        background-color: #f6f6f6;
-    }
-    .logo-small {
-        color: darkblue;
-        font-size: 50px;
-    }
-
-    }
-    .item h4 {
-        font-size: 19px;
-        line-height: 1.375em;
-        font-weight: 400;
-        font-style: italic;
-        margin: 70px 0;
-    }
-    .item span {
-        font-style: normal;
-    }
-
-    .navbar {
-        background-color:lightblue;
-        font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-          margin-bottom: 0%;
-          margin-top: 0%;
-        border-radius: 0;
-      }
-    .navbar li a, .navbar .navbar-brand {
-        color: #818181 !important;
-    }
-
-
-    .navbar-nav li a:hover, .navbar-nav li.active a {
-        color: darkblue !important;
-        background-color: #fff !important;
-    }
-    .navbar-default .navbar-toggle {
-        border-color: transparent;
-        color: #818181 !important;
-    }
-    footer {
-        background-color: gray;
-        padding: 0px;
-        color: black;
-      }
-
-    @media screen and (max-width: 768px) {
-      .col-sm-4 {
-        text-align: center;
-        margin: 25px 0;
-      }
-    }
-    h1 {
-        font-size: 22px;
-        color: midnightblue;
-        font-weight: 400;
-        margin-bottom: 30px;
-        margin-left: 100px;
-        margin-top: 100px;
-    }
-    .navbar {
-        background-color:lightblue;
-        font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
-        margin-bottom: 0%;
-        margin-top: 0%;
-        border-radius: 0;
-    }
-    .navbar li a, .navbar .navbar-brand {
-        color: #818181 !important;
-    }
-    .navbar-nav li a:hover, .navbar-nav li.active a {
-        color: darkblue !important;
-        background-color: #fff !important;
-    }
-    .navbar-default .navbar-toggle {
-        border-color: transparent;
-        color: #818181 !important;
-    }
-    footer {
-      background-color: lightblue;
-      height: 40px;
-      bottom: 0;
-      width: 100%;
-      position: fixed;
-    }
-  </style>
 </head>
 <body>
   <nav class="navbar navbar-default navbar-fixed-top">
