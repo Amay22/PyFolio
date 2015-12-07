@@ -80,11 +80,11 @@ def plot(user_id):
   rows = []
   stocks = StockPortfolio.objects.filter(user=user_id)
   user = StockFolioUser.objects.filter(user=user_id)[0]
+  money = {}
   if stocks:
-    value = user.expenditure
-    money = {}
-    money['spent'] = user.expenditure
-    money['earnt'] = user.profit
+    value = user.spent
+    money['spent'] = user.spent
+    money['earnt'] = user.earnt
     data, closes = [], []
     data = [list(reversed(get_3_month_info(stock.stock))) for stock in stocks]
     days = [day['Date'] for day in data[0]]
@@ -109,5 +109,10 @@ def plot(user_id):
           row[key] /= len(data)
         rows.append(row)
     rows.reverse()
-  money['value'] = rows[0]['Value']
+  if len(rows) > 0:
+    money['value'] = rows[0]['Value']
+  else:
+    money['earnt'] = 0
+    money['spent'] = 0
+    money['value'] = 0
   return { 'rows' : rows, 'money' : money }
