@@ -100,7 +100,7 @@ def plot(user_id):
           row['Date'] = day
           row['Value'] += float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares
           row['Volume'] += float(stock[idx]['Volume'])
-          row['Open'] = row['Open']  + float(stock[idx]['Open'])/2
+          row['Open'] = (row['Open']  + float(stock[idx]['Open']))/2
           row['High'] = (row['High']  + float(stock[idx]['High']))/2
           row['Low'] = (row['Low']  + float(stock[idx]['Low']))/2
           row['AdjClose'] = (row['AdjClose']  + float(stock[idx]['AdjClose']))/2
