@@ -363,7 +363,6 @@
             <tr>
               <th>Name</th>
               <th>Symbol</th>
-              <th>Shares</th>
               <th>P/E</th>
               <th>Price Sales</th>
               <th>Short Ratio</th>
@@ -371,7 +370,6 @@
               <th>Book/Value</th>
               <th>Price/Book</th>
               <th>EPS Current Yr</th>
-              <th>EPS Next Qtr</th>
               <th>EPS Next Yr</th>
               <th>Price EPS Current Yr</th>
               <th>Price EPS Next Yr</th>
@@ -383,7 +381,6 @@
               <tr>
                 <td>{{ stocks.Name }}</td>
                 <td>{{ stocks.Symbol }}</td>
-                <td>{{ stocks.shares }}</td>
                 <td>{{ stocks.PERatio }}</td>
                 <td>{{ stocks.PriceSales }}</td>
                 <td>{{ stocks.ShortRatio }}</td>
@@ -391,7 +388,6 @@
                 <td>{{ stocks.BookValue }}</td>
                 <td>{{ stocks.PriceBook }}</td>
                 <td>{{ stocks.EPSEstimateCurrentYear }}</td>
-                <td>{{ stocks.EPSEstimateNextQuarter }}</td>
                 <td>{{ stocks.EPSEstimateNextYear }}</td>
                 <td>{{ stocks.PriceEPSEstimateCurrentYear }}</td>
                 <td>{{ stocks.PriceEPSEstimateNextYear }}</td>
@@ -531,7 +527,7 @@
           </tbody>
         </table>
       </div>
-      <div class="tab-pane active" id="portfolio5">
+      <div class="tab-pane" id="portfolio5">
         <table class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
