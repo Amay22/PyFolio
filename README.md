@@ -33,7 +33,19 @@ In summary, PyFolio is a one-stop shop for users to gather data, news, and analy
 
 First, make sure below items have been installed before running the application
 
-1. Install node if haven't done so already. Use ```Homebrew``` or ```Choclatey``` (check bottom)
+1. Install node if haven't done so already. Use [Homebrew](http://brew.sh/) for Mac OS or [Choclatey](https://chocolatey.org/) for Windows.
+
+For Mac OS use [Homebrew](http://brew.sh/).
+
+```
+brew install node
+```
+
+For Windows use [Choclatey](https://chocolatey.org/).
+
+```
+choco install nodejs
+```
 
 
 2. install coffee if haven't done so already.
