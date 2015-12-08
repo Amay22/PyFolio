@@ -37,9 +37,9 @@
   <div align="center" style="color: {% if money.profit == '+' %}green{% else %}red{% endif %};" class="page-header">
     <table class="table table-condensed table-bordered table-striped volumes">
       <tr>
-        <th>Spent: $ {{ money.spent | intcomma }}</th> 
-        <th>Earned: $ {{ money.earnt | intcomma}}</th>
-        <th>Portfolio Value: {{ money.value | intcomma}}</th>
+        <th>Spent: $ {{ money.spent | floatformat:2 }}</th> 
+        <th>Earned: $ {{ money.earnt | floatformat:2 }}</th>
+        <th>Portfolio Value: {{ money.value | floatformat:2 }}</th>
       </tr>
     </table>
   </div>
@@ -301,6 +301,7 @@
       <li><a href="#portfolio2" data-toggle="tab">Financial Ratios</a></li>
       <li><a href="#portfolio3" data-toggle="tab">Real Time Data</a></li>
       <li><a href="#portfolio4" data-toggle="tab">Changes and Trends</a></li>
+      <li><a href="#portfolio5" data-toggle="tab">Additional Information</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="portfolio1">
@@ -314,16 +315,10 @@
               <th>Last Price</th>
               <th>Market Cap</th>
               <th>Volume</th>
-              <th>Avg Daily Volume</th>
               <th>Open</th>
               <th>High</th>
               <th>Low</th>
               <th>Previous Close</th>
-              <th>Bid</th>
-              <th>Ask</th>
-              <th>EBITDA</th>
-              <th>Div Yield</th>
-              <th>EPS</th>
               <th style="min-width:200px">BUY/SELL</th>
             </tr>
           </thead>
@@ -337,16 +332,10 @@
                 <td>{{ stocks.LastTradePriceOnly }}</td>
                 <td>{{ stocks.MarketCapitalization }}</td>
                 <td>{{ stocks.Volume }}</td>
-                <td>{{ stocks.AverageDailyVolume }}</td>
                 <td>{{ stocks.Open }}</td>
                 <td>{{ stocks.DaysHigh }}</td>
                 <td>{{ stocks.DaysLow }}</td>
                 <td>{{ stocks.PreviousClose }}</td>
-                <td>{{ stocks.Bid }}</td>
-                <td>{{ stocks.Ask }}</td>
-                <td>{{ stocks.EBITDA }}</td>
-                <td>{{ stocks.DividendYield }}</td>
-                <td>{{ stocks.EarningsShare }}</td>
                 <td>
                   <form method="post" class="form-inline" role="form" action="portfolio">
                     {% csrf_token %}
@@ -521,6 +510,54 @@
                 <td style="color: {% if stocks.PercentChangeFromFiftydayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromFiftydayMovingAverage }}</td>
                 <td>{{ stocks.TwoHundreddayMovingAverage }}</td>
                 <td style="color: {% if stocks.PercentChangeFromTwoHundreddayMovingAverage|first == '+' %}green{% else %}red{% endif %};">{{ stocks.PercentChangeFromTwoHundreddayMovingAverage }}</td>
+                <td>
+                  <form method="post" class="form-inline" role="form" action="portfolio">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input style="width:75px" class="form-control" name="shares" class="number" placeholder="Shares" type="text"/>
+                      <input type="hidden" name="which-form" value="buy-sell"/>
+                      <input type="hidden" name="stock-symbol" value="{{ stocks.Symbol }}"/>
+                      <input type="hidden" name="cost-per-share" value="{{ stocks.LastTradePriceOnly }}"/>
+                    </div>
+                    <div class="btn-group">
+                      <button type="submit" name="buy-stock" value="buy-stock" class="btn btn-primary">Buy</button>
+                      <button type="submit" name="sell-stock" value="sell-stock" class="btn btn-primary">Sell</button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane active" id="portfolio5">
+        <table class="table table-condensed table-bordered table-striped volumes">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Shares</th>
+              <th>Avg Daily Volume</th>
+              <th>Bid</th>
+              <th>Ask</th>
+              <th>EBITDA</th>
+              <th>Div Yield</th>
+              <th>EPS</th>
+              <th style="min-width:200px">BUY/SELL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stocks in portfolio %}
+              <tr>
+                <td>{{ stocks.Name }}</td>
+                <td>{{ stocks.Symbol }}</td>
+                <td>{{ stocks.shares }}</td>
+                <td>{{ stocks.AverageDailyVolume }}</td>
+                <td>{{ stocks.Bid }}</td>
+                <td>{{ stocks.Ask }}</td>
+                <td>{{ stocks.EBITDA }}</td>
+                <td>{{ stocks.DividendYield }}</td>
+                <td>{{ stocks.EarningsShare }}</td>
                 <td>
                   <form method="post" class="form-inline" role="form" action="portfolio">
                     {% csrf_token %}
