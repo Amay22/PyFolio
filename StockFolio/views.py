@@ -94,12 +94,12 @@ def plot(user_id):
       first = True
       for stock_index, stock in enumerate(data):
         if first:
-          row = {'Value' : float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 'Date' : day , 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': float(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
+          row = {'Value' : round(float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 2), 'Date' : day , 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': int(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
           first = False
         else:
           row['Date'] = day
-          row['Value'] += float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares
-          row['Volume'] += float(stock[idx]['Volume'])
+          row['Value'] += round(float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 2)
+          row['Volume'] += int(stock[idx]['Volume'])
           row['Open'] = (row['Open']  + float(stock[idx]['Open']))/2
           row['High'] = (row['High']  + float(stock[idx]['High']))/2
           row['Low'] = (row['Low']  + float(stock[idx]['Low']))/2
