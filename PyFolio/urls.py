@@ -14,11 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 '''
 from django.conf.urls import include, url
-from django.conf.urls import handler404
 from django.contrib import admin
 from LoginFolio import urls as LoginFolio_urls
 from StockFolio import urls as StockFolio_urls
-from LoginFolio import views as LoginFolio_views
 
 urlpatterns = [
     url(r'^(?i)admin/', include(admin.site.urls)),

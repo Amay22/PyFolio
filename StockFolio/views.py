@@ -27,7 +27,7 @@ def portfolio(request):
         portfolio_stock = portfolio_stocks(user_id)
         money = portfolio_stock['money']
         porfolio = portfolio_stock['portfolio_info']
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money})
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
@@ -36,7 +36,7 @@ def portfolio(request):
       portfolio_stock = portfolio_stocks(user_id)
       money = portfolio_stock['money']
       porfolio = portfolio_stock['portfolio_info']
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money})
     elif which_form == 'buy-sell':
       symbol = request.POST.get('stock-symbol', '').strip()
       if request.POST.get('buy-stock'):
@@ -46,11 +46,11 @@ def portfolio(request):
       portfolio_stock = portfolio_stocks(user_id)
       money = portfolio_stock['money']
       porfolio = portfolio_stock['portfolio_info']
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money})
   portfolio_stock = portfolio_stocks(user_id)
   money = portfolio_stock['money']
   porfolio = portfolio_stock['portfolio_info']
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money})
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -73,10 +73,10 @@ def portfolio_stocks(user_id):
   portfolio_info = []
   stock_list = StockPortfolio.objects.filter(user=user_id)
   user = StockFolioUser.objects.filter(user=user_id)[0]
-  money = {'spent' : user.spent , 'earnt' : user.earnt, 'value' : 0 , 'profit': '+'}
+  money = {'spent' : user.spent, 'earnt' : user.earnt, 'value' : 0, 'profit': '+'}
   if stock_list:
     symbols = [stock.stock for stock in stock_list]
-    if len(symbols) == 1 :
+    if len(symbols) == 1:
       stock_data = [get_current_info(symbols)]
     else:
       stock_data = get_current_info(symbols)
@@ -89,7 +89,7 @@ def portfolio_stocks(user_id):
     portfolio_info = [stock_data] if stock_data.__class__ == dict else stock_data
   if float(money['spent']) > (float(money['value']) + float(money['earnt'])):
     money['value'] = '-'
-  return { 'portfolio_info' : portfolio_info, 'money' : money }
+  return {'portfolio_info' : portfolio_info, 'money' : money}
 
 def plot(user_id):
   '''Gets Months of historical info on stock and for the graph plots of portfolio'''
@@ -104,7 +104,7 @@ def plot(user_id):
         if len(stock) <= idx:
           continue
         if first:
-          row = {'Value' : round(float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 2), 'Date' : day , 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': int(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
+          row = {'Value' : round(float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 2), 'Date' : day, 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': int(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
           first = False
         else:
           row['Date'] = day

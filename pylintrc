@@ -6,4 +6,4 @@
 indent-string='  '
 
 # Increaing max line length from 100 to 130
-max-line-length=175
+max-line-length=454

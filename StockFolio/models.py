@@ -44,5 +44,5 @@ class StockPortfolio(models.Model):
     stock_user.save()
     if result.shares == 0:
       result.delete()
-    else :
+    else:
       result.save()
