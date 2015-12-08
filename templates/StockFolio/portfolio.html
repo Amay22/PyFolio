@@ -305,7 +305,7 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="portfolio1">
-        <table class="table table-condensed table-bordered table-striped volumes">
+        <table id="portfolio-stocks" class="table table-condensed table-bordered table-striped volumes">
           <thead>
             <tr>
               <th>Name</th>
@@ -326,9 +326,9 @@
             {% for stocks in portfolio %}
               <tr>
                 <td>{{ stocks.Name }}</td>
-                <td>{{ stocks.Symbol }}</td>
+                <td class="portfolio-stock-symbol">{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
-                <td>{{ stocks.cost }}</td>
+                <td class="portfolio-stock-cost">{{ stocks.cost }}</td>
                 <td>{{ stocks.LastTradePriceOnly }}</td>
                 <td>{{ stocks.MarketCapitalization }}</td>
                 <td>{{ stocks.Volume }}</td>
@@ -585,8 +585,9 @@
   {% if portfolio_rows %}
 
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#chart1" data-toggle="tab"><h2>Portfolio OHLC and Volume</h2></a></li>
-      <li><a href="#chart2" data-toggle="tab"><h2>PortFolio Value vs. Time</h2></a></li>
+      <li class="active"><a href="#chart1" data-toggle="tab"><h4>Portfolio OHLC and Volume</h4></a></li>
+      <li><a href="#chart2" data-toggle="tab"><h4>PortFolio Value vs. Time</h4></a></li>
+      <li><a href="#chart3" data-toggle="tab"><h4>Stock Value Pie Chart</h4></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="chart1">
@@ -594,6 +595,9 @@
       </div>
       <div class="tab-pane" id="chart2">
         <div id="portfolio-time-val-graph" style="height:400px;width:980px"></div>
+      </div>
+      <div class="tab-pane" id="chart3">
+        <div id="pie"></div>
       </div>
     </div>
 
@@ -642,6 +646,7 @@
     {% compress js %}
       <script src="{{ STATIC_URL }}scripts/coffee/plot-val-time.coffee" type="text/coffeescript"></script>
       <script src="{{ STATIC_URL }}scripts/coffee/plot-ohlc.coffee" type="text/coffeescript"></script>
+      <script src="{{ STATIC_URL }}scripts/coffee/pie.coffee" type="text/coffeescript"></script>
     {% endcompress %}
     {% compress css %}
       <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheets/techan-plot.css" />
