@@ -73,7 +73,7 @@ def portfolio_stocks(user_id):
   portfolio_info = []
   stock_list = StockPortfolio.objects.filter(user=user_id)
   user = StockFolioUser.objects.filter(user=user_id)[0]
-  money = {'spent' : user.spent , 'earnt' : user.spent, 'value' : 0 , 'profit': '+'}
+  money = {'spent' : user.spent , 'earnt' : user.earnt, 'value' : 0 , 'profit': '+'}
   if stock_list:
     symbols = [stock.stock for stock in stock_list]
     if len(symbols) == 1 :
