@@ -1,5 +1,5 @@
 # PyFolio
-### OVERVIEW: 
+### OVERVIEW:
 PyFolio is a free web application designed to provide trading simulations to users and it is built on Python Django Framework. PyFolio uses real-time stock market data to paint the most accurate picture of investment portfolios customized for perspective investors. It allows users to design their own portfolios and display quantitative factors with highly visualized graphs and charts.
 ### TARGET AUDIENCE:
 Our target audience includes anyone and everyone who is interested in stock investing. Whether you are new to the stock market and want to test the water before turning to a stockbroker, or you are a student interested in investing and looking for a place to do market simulation, or you are an experienced independent stock trader looking for a place to test out different portfolio strategies but don’t have access to the tools, PyFolio is the right place for you.
@@ -32,29 +32,43 @@ In summary, PyFolio is a one-stop shop for users to gather data, news, and analy
 ### HOW TO RUN:
 
 First, make sure below items have been installed before running the application
-1. Install node if haven't done so already. 
+
+1. Install node if haven't done so already. Use ```Homebrew``` or ```Choclatey``` (check bottom)
+
+
 2. install coffee if haven't done so already.
+
 ```
 sudo npm install -g coffee-script
+```
+
+3. Install the requirement packages for PyFolio
+
+```
 pip install –r requirments.txt
-pip install django
 ```
 
 Then use the below commands to run the application:
 
+Make Migrations to update changes on the database.
+
 ```
 python manage.py makemigrations
 ```
-  This is to migrate the codes to the local server
- 
+Migrate to the to make all the changes on the database.
+
 ```
 python manage.py migrate
 ```
-  Repeat this step if there is any significate changes made to the code
+
+Repeat the two steps if there is any change to any of the models.py
+
+This step is to run the application on the localhost server.
 
 ```
 python manage.py runserver
 ```
-  This step is to run the application on the local host
+
+
 
 
