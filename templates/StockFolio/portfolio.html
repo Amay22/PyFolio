@@ -420,8 +420,6 @@
               <th>Days Range</th>
               <th>Ask</th>
               <th>Bid</th>
-              <th>Change</th>
-              <th>Change %</th>
               <th>After Hr Change</th>
               <th>Holdings Gain</th>
               <th>Holdings Gain %</th>
@@ -440,8 +438,6 @@
                 <td>{{ stocks.DaysRange }}</td>
                 <td>{{ stocks.Ask }}</td>
                 <td>{{ stocks.Bid }}</td>
-                <td style="color: {% if stocks.Change|first == '+' %}green{% else %}red{% endif %};">{{ stocks.Change }}</td>
-                <td style="color: {% if stocks.ChangeinPercent|first == '+' %}green{% else %}red{% endif %};">{{ stocks.ChangeinPercent }}</td>
                 <td>{{ stocks.AfterHoursChangeRealtime }}</td>
                 <td>{{ stocks.HoldingsGain }}</td>
                 <td>{{ stocks.HoldingsGainPercent }}</td>
