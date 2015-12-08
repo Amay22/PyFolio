@@ -56,13 +56,14 @@ PREREQ_INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
 ]
 
 PROJECT_APPS = [
     'LoginFolio',
     'StockFolio',
-    'compressor'
+    'compressor',
+    'django.contrib.humanize'
 ]
 
 INSTALLED_APPS = PREREQ_INSTALLED_APPS + PROJECT_APPS

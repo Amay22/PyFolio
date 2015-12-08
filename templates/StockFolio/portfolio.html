@@ -1,4 +1,5 @@
 {% extends 'default.html' %}
+{% load humanize %}
 
 {% block main %}
   <br>
@@ -37,9 +38,9 @@
   <div align="center" style="color: {% if money.profit == '+' %}green{% else %}red{% endif %};" class="page-header">
     <table class="table table-condensed table-bordered table-striped volumes">
       <tr>
-        <th>Spent: $ {{ money.spent | floatformat:2 }}</th> 
-        <th>Earned: $ {{ money.earnt | floatformat:2 }}</th>
-        <th>Portfolio Value: $ {{ money.value | floatformat:2 }}</th>
+        <th>Spent: $ {{ money.spent | intcomma }}</th>
+        <th>Earned: $ {{ money.earnt | intcomma }}</th>
+        <th>Portfolio Value: $ {{ money.value | intcomma }}</th>
       </tr>
     </table>
   </div>
@@ -94,7 +95,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ stock.LastTradePriceOnly }}</td>
+              <td>$ {{ stock.LastTradePriceOnly | intcomma }}</td>
               <td>{{ stock.MarketCapitalization }}</td>
               <td>{{ stock.Volume }}</td>
               <td>{{ stock.AverageDailyVolume }}</td>
@@ -329,7 +330,7 @@
                 <td class="portfolio-stock-symbol">{{ stocks.Symbol }}</td>
                 <td>{{ stocks.shares }}</td>
                 <td class="portfolio-stock-cost">{{ stocks.cost }}</td>
-                <td>{{ stocks.LastTradePriceOnly }}</td>
+                <td>$ {{ stocks.LastTradePriceOnly | intcomma }}</td>
                 <td>{{ stocks.MarketCapitalization }}</td>
                 <td>{{ stocks.Volume }}</td>
                 <td>{{ stocks.Open }}</td>
@@ -623,7 +624,7 @@
             <tbody>
               {% for row in portfolio_rows %}
               <tr>
-                <td class="portfolio-table-value">${{ row.Value | floatformat:2 }}</td>
+                <td class="portfolio-table-value">${{ row.Value | intcomma }}</td>
                 <td class="portfolio-table-date">{{ row.Date }}</td>
                 <td style="color: {% if row.Percent > 0 %}green{% else %}red{% endif %};">
                     {% if row.Percent > 0 %}+{% endif %}{{ row.Percent | floatformat:2 }}
