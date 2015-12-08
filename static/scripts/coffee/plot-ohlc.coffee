@@ -191,9 +191,9 @@ $ ->
 
     data_text = 'Date,Open,High,Low,Close,Volume\n'
     rows = document.getElementById('portfolio-time-val-table')
-    for row in [1 .. rows.getElementsByClassName('portfolio-table-value').length - 1]
+    for row in [0..rows.getElementsByClassName('portfolio-table-value').length - 1]
       data_text += rows.getElementsByClassName('portfolio-table-date')[row].innerText.trim() + ','
-      data_text += rows.getElementsByClassName('portfolio-table-close')[row-1].innerText.trim() + ','
+      data_text += rows.getElementsByClassName('portfolio-table-open')[row].innerText.trim() + ','
       data_text += rows.getElementsByClassName('portfolio-table-high')[row].innerText.trim() + ','
       data_text += rows.getElementsByClassName('portfolio-table-low')[row].innerText.trim() + ','
       data_text += rows.getElementsByClassName('portfolio-table-close')[row].innerText.trim() + ','
