@@ -29,7 +29,7 @@ def portfolio(request):
         porfolio = portfolio_stock['portfolio_info']
         return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money})
     elif which_form == 'download-historical':
-      download_historical(request.POST.get('stock-symbol', '').strip())
+      return download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
