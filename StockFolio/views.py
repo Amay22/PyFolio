@@ -19,30 +19,38 @@ import json
 def portfolio(request):
   '''The main method for all the user functionality'''
   user_id = request.user.id
-  rows = plot(user_id)
-  portfolio_stock = portfolio_stocks(user_id)
-  money = portfolio_stock['money']
-  porfolio = portfolio_stock['portfolio_info']
   if request.method == 'POST':
     which_form = request.POST.get('which-form', '').strip()
     if which_form == 'find-stock':
       symbol = request.POST.get('stock', '').strip().split(' ')[0].strip().upper()
       if symbol != '':
-        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+        portfolio_stock = portfolio_stocks(user_id)
+        money = portfolio_stock['money']
+        porfolio = portfolio_stock['portfolio_info']
+        return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
     elif which_form == 'download-historical':
       download_historical(request.POST.get('stock-symbol', '').strip())
     elif which_form == 'buy-stock':
       symbol = request.POST.get('stock-symbol', '').strip()
       StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+      portfolio_stock = portfolio_stocks(user_id)
+      money = portfolio_stock['money']
+      porfolio = portfolio_stock['portfolio_info']
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
     elif which_form == 'buy-sell':
       symbol = request.POST.get('stock-symbol', '').strip()
       if request.POST.get('buy-stock'):
         StockPortfolio.buy(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
       elif request.POST.get('sell-stock'):
         StockPortfolio.sell(user_id, symbol, request.POST.get('shares', '').strip(), request.POST.get('cost-per-share', '').strip())
-      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
-  return render(request, 'StockFolio/portfolio.html', {'portfolio' : porfolio, 'portfolio_rows' : rows, 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+      portfolio_stock = portfolio_stocks(user_id)
+      money = portfolio_stock['money']
+      porfolio = portfolio_stock['portfolio_info']
+      return render(request, 'StockFolio/portfolio.html', {'stock':get_current_info([''+symbol]), 'news' : get_news_feed(symbol), 'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
+  portfolio_stock = portfolio_stocks(user_id)
+  money = portfolio_stock['money']
+  porfolio = portfolio_stock['portfolio_info']
+  return render(request, 'StockFolio/portfolio.html', {'portfolio' : porfolio, 'portfolio_rows' : plot(user_id), 'symbols' : json.dumps(STOCK_SYMBOLS), 'money' : money })
 
 def download_historical(symbol):
   '''Downloads the historical data to the desktop'''
@@ -93,6 +101,8 @@ def plot(user_id):
     for idx, day in enumerate(days):
       first = True
       for stock_index, stock in enumerate(data):
+        if len(stock) <= idx:
+          continue
         if first:
           row = {'Value' : round(float(stock[idx]['Close']) * StockPortfolio.objects.filter(stock=stocks[stock_index].stock, user=user_id)[0].shares, 2), 'Date' : day , 'Percent': (float(stock[idx]['Open']) - float(stock[idx]['Close'])) / float(stock[idx]['Close']) * 100, 'Volume': int(stock[idx]['Volume']), 'High': float(stock[idx]['High']), 'Low': float(stock[idx]['Low']), 'AdjClose': float(stock[idx]['AdjClose']), 'Open': float(stock[idx]['Open'])}
           first = False
