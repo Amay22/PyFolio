@@ -33,7 +33,7 @@ In summary, PyFolio is a one-stop shop for users to gather data, news, and analy
 
 First, make sure below items have been installed before running the application
 
-1. Install node if haven't done so already. Use [Homebrew](http://brew.sh/) for Mac OS or [Choclatey](https://chocolatey.org/) for Windows.
+First, install node if haven't done so already. Use [Homebrew](http://brew.sh/) for Mac OS or [Choclatey](https://chocolatey.org/) for Windows.
 
 For Mac OS use [Homebrew](http://brew.sh/).
 
@@ -48,13 +48,13 @@ choco install nodejs
 ```
 
 
-2. install coffee if haven't done so already.
+Then install coffee if haven't done so already.
 
 ```
 sudo npm install -g coffee-script
 ```
 
-3. Install the requirement packages for PyFolio
+Install the requirement packages for PyFolio
 
 ```
 pip install –r requirments.txt
