@@ -88,7 +88,7 @@ def portfolio_stocks(user_id):
           money['value'] += float(stock['cost'])
     portfolio_info = [stock_data] if stock_data.__class__ == dict else stock_data
   if float(money['spent']) > (float(money['value']) + float(money['earnt'])):
-    money['value'] = '-'
+    money['profit'] = '-'
   return {'portfolio_info' : portfolio_info, 'money' : money}
 
 def plot(user_id):
