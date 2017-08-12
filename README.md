@@ -57,7 +57,7 @@ sudo npm install -g coffee-script
 Install the requirement packages for PyFolio
 
 ```
-pip install –r requirments.txt
+pip install –r requirements.txt
 ```
 
 Then use the below commands to run the application:
