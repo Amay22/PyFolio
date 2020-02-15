@@ -1,4 +1,4 @@
-django==1.8.4
+django==1.11.28
 django-compressor==1.5
 pep8==1.5.7
 pylint==1.4.4
